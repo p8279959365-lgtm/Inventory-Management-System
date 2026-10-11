@@ -34,6 +34,38 @@ class main
         entrypassword.setBounds(700,385,200,20);
         obj.add(entrypassword);
 
+
+        JButton login = new JButton("LOGIN");
+        login.setBounds(650, 440, 120, 35);
+        obj.add(login);
+
+
+
+        // BORDER TO THE LOGIN PAGE// 
+        
+        JPanel loginPanel = new JPanel();
+        loginPanel.setLayout(null);
+        loginPanel.setBounds(450, 230, 550, 280);
+        loginPanel.setBorder(
+            BorderFactory.createTitledBorder("")
+        );
+        
+        obj.add(loginPanel);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         obj.setVisible(true);
         obj.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
