@@ -1,3 +1,4 @@
+import java.awt.event.*;
 import java.sql.*;
 import javax.swing.*;
 class main
@@ -42,29 +43,25 @@ class main
 
 
         // BORDER TO THE LOGIN PAGE// 
-        
+
         JPanel loginPanel = new JPanel();
         loginPanel.setLayout(null);
         loginPanel.setBounds(450, 230, 550, 280);
         loginPanel.setBorder(
             BorderFactory.createTitledBorder("")
         );
-        
         obj.add(loginPanel);
 
+        // add action listner to the login button
+        login.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
 
+                
 
-
-
-
-
-
-
-
-
-
-
-
+            }
+        });
 
         obj.setVisible(true);
         obj.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
