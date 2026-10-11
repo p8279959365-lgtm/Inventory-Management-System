@@ -44,52 +44,75 @@ class main
 
         // BORDER TO THE LOGIN PAGE// 
 
-        JPanel loginPanel = new JPanel();
-        loginPanel.setLayout(null);
-        loginPanel.setBounds(450, 230, 550, 280);
-        loginPanel.setBorder(
-            BorderFactory.createTitledBorder("")
-        );
-        obj.add(loginPanel);
+        // JPanel loginPanel = new JPanel();
+        // loginPanel.setLayout(null);
+        // loginPanel.setBounds(450, 230, 550, 280);
+        // loginPanel.setBorder(
+        //     BorderFactory.createTitledBorder("")
+        // );
+        // obj.add(loginPanel);
 
 
-        obj.setVisible(true);
-        obj.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
 
         try{
         Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/inventory","root","Vikram@300978");
+        Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/Inventory","root","Vikram@300978");
 
         // id is of int type and password is of string ype
         // pasword will be stored in the varchar type
         // database inventory table  is authentication
+
+
+
+
+
         // add action listner to the login button
-
-
-
-
-        
         login.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent e)
             {
-                int nm=Integer.parseInt(name.getText());
-                String pass=new String(enterpassword.getPassword());
+               
                 try{
-                String q1="select password from inventory where id=(?) ";
+                 int nm=Integer.parseInt(enterid.getText());
+                String pass=new String(enterpassword.getPassword());
+                String q1="SELECT password from authentication WHERE user_id= ?  ";
                 PreparedStatement stmt=con.prepareStatement(q1);
                 stmt.setInt(1,nm);
+                ResultSet res=stmt.executeQuery();
+
+                if(res.next())
+                {
+                    String pas=res.getString("password");
+                    if(pass.equals(pas))
+                    {
+                        JOptionPane.showMessageDialog(obj,"Login Succesful !!");
+                    }
+                    else
+                    {
+                        JOptionPane.showMessageDialog(obj,"Incorrect Password");
+                    }
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(obj,"user id not found");
+                }
                 }
                 catch(Exception ep)
                 {
-                    System.out.println("Sql query error");
+                   ep.printStackTrace();
+                   JOptionPane.showMessageDialog(
+                    obj,"Error: " + ep.getMessage());
                 }
 
             }
         });
+        obj.setVisible(true);
+        obj.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         }
         catch(Exception e)
         {
+             e.printStackTrace();
         }
 
     }
