@@ -82,9 +82,14 @@ class InventoryFrame extends JFrame
 
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
+    // add how to read the table ie table "STOCK " from the data base using the statement 
     static void loadTable(JTable table1)
     {
+        // loadd the driver class establish
 
+        // connection establish
+
+        // statement execute  
     }
 
     
