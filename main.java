@@ -87,6 +87,10 @@ class main
                     if(pass.equals(pas))
                     {
                         JOptionPane.showMessageDialog(obj,"Login Succesful !!");
+                        InventoryFrame inventory = new InventoryFrame();
+                        inventory.setLocationRelativeTo(null);
+                        inventory.setVisible(true);
+                        obj.dispose();
                     }
                     else
                     {
