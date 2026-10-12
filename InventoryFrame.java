@@ -10,7 +10,7 @@ class InventoryFrame extends JFrame
 
     
     // crating buttons for the navigation
-    JButton product,inventory,sales,purchase,bill,supplier;
+    JButton product,sales,purchase,billing,supplier,stock,customer;
     // panel for side bar
     JPanel sidebar=new JPanel();
     // positioning the sidebar
@@ -42,7 +42,30 @@ class InventoryFrame extends JFrame
     purchase.setBounds(20,120,120,30);
     sidebar.add(purchase);
     
+    // adding the stock button button
+    stock=new JButton("STOCK");
+    stock.setBounds(20,160,120,30);
+    sidebar.add(stock);
+
+    // adding the customer button
+    customer=new JButton("CUSTOMER");
+    customer.setBounds(20,200,120,30);
+    sidebar.add(customer);
+
+    // adding the suppier button
+    supplier=new JButton("SUPPLIERS");
+    supplier.setBounds(20,240,120,30);
+    sidebar.add(supplier);
+
+    // adding the billing button
+    billing=new JButton("BILLING");
+    billing.setBounds(20,280,120,30);
+    sidebar.add(billing);
     
+
+
+
+
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
