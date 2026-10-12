@@ -14,7 +14,7 @@ class InventoryFrame extends JFrame
     // panel for side bar
     JPanel sidebar=new JPanel();
     // positioning the sidebar
-    sidebar.setBounds(0,0,200,1000);
+    sidebar.setBounds(0,0,150,1000);
     sidebar.setLayout(null);
     // sidebar.setOpaque(true);
     // coloring the sidebar
@@ -61,12 +61,30 @@ class InventoryFrame extends JFrame
     billing=new JButton("BILLING");
     billing.setBounds(20,280,120,30);
     sidebar.add(billing);
-    
+
+    // NOW WORKING IN THE MAIN AREA 
+    JPanel body=new JPanel();
+    body.setBounds(150,0,1000,1000);
+    body.setBackground(Color.PINK);
+    body.setLayout(null);
+    add(body);
+    // adding the table of stock
+
+    JTable table1=new JTable();
+    JScrollPane sp=new JScrollPane(table1);
+    body.add(sp,BorderLayout.CENTER);
+    loadTable(table1);
+
+
 
 
 
 
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+    static void loadTable(JTable table1)
+    {
+
     }
 
     
