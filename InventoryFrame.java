@@ -44,8 +44,10 @@ class InventoryFrame extends JFrame
 
     // adding the right sidebar
     JPanel RightSideBar=new JPanel();
-    RightSideBar.setBounds(1150,10,150,1000);
+    RightSideBar.setBounds(1150,10,800,1000);
+    RightSideBar.setVisible(true);
     add(RightSideBar);
+
 
     // adding the product
     product=new JButton("PRODUCT");
@@ -85,19 +87,88 @@ class InventoryFrame extends JFrame
 
     // adding the table of stock
     
+    // stock.addActionListener(new ActionListener(){
+    //     public void actionPerformed(ActionEvent e)
+    //     {
+    //         JLabel proname,proid,probrand,prounitprice,proquantity,prototalcost;
+    //         JTextField name,id,brand,unitprice,quantity,totalcost;
+    //         RightSideBar.removeAll();
 
-    stock.addActionListener(new ActionListener(){
-        public void actionPerformed(ActionEvent e)
-        {
-            JTable table1=new JTable();
-            JScrollPane sp=new JScrollPane(table1);
-            sp.setBounds(100,0,800,1000);
-            body.add(sp);
-            loadTable(table1);
+    //         proname=new JLabel("Product name");
+    //         name=new JTextField("");
 
-        }
-    });
+    //        proname.setBounds(10, 20, 120, 25);
+
+    //         name.setBounds(10,30,100,30);
+    //         RightSideBar.add(proname);
+    //         RightSideBar.add(name);
+
+    //          JTable table1=new JTable();
+    //         JScrollPane sp=new JScrollPane(table1);
+    //         sp.setBounds(100,0,800,1000);
+    //         body.add(sp);
+    //         loadTable(table1);
+
+            
+
+    //     }
+    // });
     
+
+
+    stock.addActionListener(e -> {
+
+    body.removeAll();
+    RightSideBar.removeAll();
+    RightSideBar.setLayout(null);
+
+    // Create stock table
+    JTable table1 = new JTable();
+    JScrollPane sp = new JScrollPane(table1);
+    sp.setBounds(0, 0, 950, 850);
+    body.add(sp);
+
+    // Add Product Name label
+    JLabel proname = new JLabel("Product Name");
+    proname.setBounds(20, 20, 120, 25);
+    RightSideBar.add(proname);
+
+    // Add text field
+    JTextField name = new JTextField();
+    name.setBounds(120, 20, 130, 30);
+    RightSideBar.add(name);
+
+    // Add product id 
+    JLabel proid = new JLabel("Product Id");
+    proid.setBounds(20, 60, 120, 25);
+    RightSideBar.add(proid);
+
+     JTextField id = new JTextField();
+    id.setBounds(120, 60, 130, 30);
+    RightSideBar.add(id);
+
+
+
+    // Add product id 
+    JLabel proSupplier = new JLabel("Supplier");
+    proSupplier.setBounds(20, 100, 120, 25);
+    RightSideBar.add(proSupplier);
+
+     JTextField Supplier = new JTextField();
+    Supplier.setBounds(120, 100, 130, 30);
+    RightSideBar.add(Supplier);
+
+
+    // Refresh the interface
+    body.revalidate();
+    body.repaint();
+
+    RightSideBar.revalidate();
+    RightSideBar.repaint();
+
+    // Load database records
+    loadTable(table1);
+});
 
 
 
