@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.sql.*;
 import javax.swing.*;
 class InventoryFrame extends JFrame
 {
@@ -86,6 +87,23 @@ class InventoryFrame extends JFrame
     static void loadTable(JTable table1)
     {
         // loadd the driver class establish
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            // connection establish 
+            Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/Inventory","root","Vikram@300978");
+
+            Statement stmt=con.createStatement();
+            ResultSet res=stmt.executeQuery("select * from stock");
+
+            while(res.next())
+            {
+                System.out.print(res.getInt(1)+" "+res.getString(2)+" "+res.getString(3)+" "+res.getInt(4)+" "+res.getInt(5)+" ");
+            }
+        }
+        catch(Exception e)
+        {
+
+        }
 
         // connection establish
 
