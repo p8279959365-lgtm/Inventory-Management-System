@@ -15,7 +15,7 @@ class InventoryFrame extends JFrame
     // panel for side bar
     JPanel sidebar=new JPanel();
     // positioning the sidebar
-    sidebar.setBounds(0,0,150,1000);
+    sidebar.setBounds(0,0,200,1000);
     sidebar.setLayout(null);
     // sidebar.setOpaque(true);
     // coloring the sidebar
@@ -67,14 +67,15 @@ class InventoryFrame extends JFrame
     JPanel body=new JPanel();
     body.setBounds(150,0,1000,1000);
     body.setBackground(Color.PINK);
-    body.setLayout(null);
     add(body);
+    body.setLayout(null);
     // adding the table of stock
 
     JTable table1=new JTable();
     JScrollPane sp=new JScrollPane(table1);
-    body.add(sp,BorderLayout.CENTER);
-    loadTable(table1);
+    sp.setBounds(100,0,800,1000);
+    body.add(sp);
+    stock.addActionListener(e -> loadTable(table1));
 
 
 
@@ -95,19 +96,38 @@ class InventoryFrame extends JFrame
             Statement stmt=con.createStatement();
             ResultSet res=stmt.executeQuery("select * from stock");
 
+
+            //adding the columns heading to the table
+            ResultSetMetaData rsmd=res.getMetaData();
+            int i;
+            javax.swing.table.DefaultTableModel model =
+            new javax.swing.table.DefaultTableModel();
+            for(i=1;i<=5;i++)
+            {
+                model.addColumn(rsmd.getColumnLabel(i));
+            }
+
             while(res.next())
             {
-                System.out.print(res.getInt(1)+" "+res.getString(2)+" "+res.getString(3)+" "+res.getInt(4)+" "+res.getInt(5)+" ");
+                Object[] row=new Object[5];
+                for(i=1;i<=5;i++)
+                {
+                    row[i-1]=res.getObject(i);
+                }
+                model.addRow(row);
             }
+            table1.setModel(model);
+            res.close();
+        stmt.close();
+        con.close();
+    }
+    catch (Exception e)
+    {
+        e.printStackTrace();
+
+        JOptionPane.showMessageDialog(null,"Error loading stock: " + e.getMessage()
+        );
         }
-        catch(Exception e)
-        {
-
-        }
-
-        // connection establish
-
-        // statement execute  
     }
 
     
