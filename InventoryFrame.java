@@ -16,7 +16,7 @@ class InventoryFrame extends JFrame
     // panel for side bar
     JPanel sidebar=new JPanel();
     // positioning the sidebar
-    sidebar.setBounds(0,10,200,1000);
+    sidebar.setBounds(0,10,180,1000);
     sidebar.setLayout(null);
     // sidebar.setOpaque(true);
     // coloring the sidebar
@@ -30,7 +30,8 @@ class InventoryFrame extends JFrame
 
     // adding the label of inventory management system
     JLabel lheading=new JLabel("INVENTORY MANAGEMENT SYSTEM");
-    lheading.setBounds(500,0,400,50);
+    lheading.setFont(new Font("Arial", Font.BOLD, 24));
+    lheading.setBounds(500,0,1000,50);
     add(lheading);
 
 
@@ -125,7 +126,7 @@ class InventoryFrame extends JFrame
     // Create stock table
     JTable table1 = new JTable();
     JScrollPane sp = new JScrollPane(table1);
-    sp.setBounds(0, 0, 950, 850);
+    sp.setBounds(80, 30, 900, 850);
     body.add(sp);
 
     // Add Product Name label
@@ -148,7 +149,6 @@ class InventoryFrame extends JFrame
     RightSideBar.add(id);
 
 
-
     // Add product id 
     JLabel proSupplier = new JLabel("Supplier");
     proSupplier.setBounds(20, 100, 120, 25);
@@ -159,12 +159,81 @@ class InventoryFrame extends JFrame
     RightSideBar.add(Supplier);
 
 
+     // add the Purchase cost 
+    JLabel propurchasePrice = new JLabel("Purchase Price");
+    propurchasePrice.setBounds(20, 140, 120, 25);
+    RightSideBar.add(propurchasePrice);
+
+     JTextField purchasePrice = new JTextField();
+    purchasePrice.setBounds(120, 140, 130, 30);
+    RightSideBar.add(purchasePrice);
+
+    // add the Selling cost 
+    JLabel prosellingPrice = new JLabel("Selling Price");
+    prosellingPrice.setBounds(20, 180, 120, 25);
+    RightSideBar.add(prosellingPrice);
+
+     JTextField sellingPrice = new JTextField();
+    sellingPrice.setBounds(120, 180, 130, 30);
+    RightSideBar.add(sellingPrice);
+
+    // adding the quantity
+    JLabel proQuantity = new JLabel("QUANTITY");
+    proQuantity.setBounds(20, 220, 120, 25);
+    RightSideBar.add(proQuantity);
+
+     JTextField Quantity = new JTextField();
+    Quantity.setBounds(120, 220, 130, 30);
+    RightSideBar.add(Quantity);
+
+
+    // adding the totalcost
+    JLabel proTotalCost = new JLabel("TOTAL COST");
+    proTotalCost.setBounds(20, 260, 120, 25);
+    RightSideBar.add(proTotalCost);
+
+     JTextField TotalCost= new JTextField();
+    TotalCost.setBounds(120, 260, 130, 30);
+    RightSideBar.add(TotalCost);
+
+
+
+
+    JButton addStock = new JButton("ADD STOCK");
+addStock.setBounds(20, 370, 130, 35);
+RightSideBar.add(addStock);
+
+JButton updateStock = new JButton("UPDATE STOCK");
+updateStock.setBounds(170, 370, 150, 35);
+RightSideBar.add(updateStock);
+
+JButton deleteStock = new JButton("DELETE STOCK");
+deleteStock.setBounds(20, 420, 130, 35);
+RightSideBar.add(deleteStock);
+
+JButton clearFields = new JButton("CLEAR FIELDS");
+clearFields.setBounds(170, 420, 150, 35);
+RightSideBar.add(clearFields);
+
+JButton refreshTable = new JButton("REFRESH TABLE");
+refreshTable.setBounds(20, 470, 300, 35);
+RightSideBar.add(refreshTable);
+
+
+
+
+
+
+
+
+
     // Refresh the interface
     body.revalidate();
     body.repaint();
 
     RightSideBar.revalidate();
     RightSideBar.repaint();
+
 
     // Load database records
     loadTable(table1);
@@ -177,8 +246,6 @@ class InventoryFrame extends JFrame
         {
             body.removeAll();
             body.add(new ProductFrame());
-            
-
         }
     });
 
@@ -207,15 +274,16 @@ class InventoryFrame extends JFrame
             int i;
             javax.swing.table.DefaultTableModel model =
             new javax.swing.table.DefaultTableModel();
-            for(i=1;i<=5;i++)
+            int countCol=rsmd.getColumnCount();
+            for(i=1;i<=countCol;i++)
             {
                 model.addColumn(rsmd.getColumnLabel(i));
             }
 
             while(res.next())
             {
-                Object[] row=new Object[5];
-                for(i=1;i<=5;i++)
+                Object[] row=new Object[countCol];
+                for(i=1;i<=countCol;i++)
                 {
                     row[i-1]=res.getObject(i);
                 }
