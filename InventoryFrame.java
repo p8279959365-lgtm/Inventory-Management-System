@@ -215,6 +215,8 @@ class InventoryFrame extends JFrame
     refreshTable.setBounds(20, 470, 300, 35);
     RightSideBar.add(refreshTable);
 
+    String[] originalProductId = {null};
+
     addStock.addActionListener(ep ->{
 
         String Product_name=name.getText();
@@ -283,6 +285,93 @@ class InventoryFrame extends JFrame
 
 
 
+    updateStock.addActionListener(epp -> {
+
+    if (originalProductId[0] == null) {
+        JOptionPane.showMessageDialog(
+            this, "Please select a product from the table first."
+        );
+        return;
+    }
+
+    try {
+        String productName = name.getText().trim();
+        String productId = id.getText().trim();
+        String productSupplier = Supplier.getText().trim();
+
+        int purchasee = Integer.parseInt(purchasePrice.getText().trim());
+        int selling = Integer.parseInt(sellingPrice.getText().trim());
+        int qty = Integer.parseInt(Quantity.getText().trim());
+        int total = Integer.parseInt(TotalCost.getText().trim());
+
+        String sql = "UPDATE stock SET "
+                + "product_name = ?, "
+                + "product_id = ?, "
+                + "supplier = ?, "
+                + "purchase_price = ?, "
+                + "selling_price = ?, "
+                + "quantity = ?, "
+                + "total_cost = ? "
+                + "WHERE product_id = ?";
+
+        try (Connection con = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/Inventory",
+                    "root",
+                    "Vikram@300978");
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setString(1, productName);
+            ps.setString(2, productId);
+            ps.setString(3, productSupplier);
+            ps.setInt(4, purchasee);
+            ps.setInt(5, selling);
+            ps.setInt(6, qty);
+            ps.setInt(7, total);
+
+            // Find the original record, even if its ID was edited
+            ps.setString(8, originalProductId[0]);
+
+            int result = ps.executeUpdate();
+
+            name.setText("");
+            id.setText("");
+            Supplier.setText("");
+            purchasePrice.setText("");
+            sellingPrice.setText("");
+            Quantity.setText("");
+            TotalCost.setText("");
+
+
+            if (result > 0) {
+                JOptionPane.showMessageDialog(
+                    this, "Stock updated successfully!"
+                );
+
+                originalProductId[0] = productId;
+
+                // Show the updated values immediately
+                loadTable(table1);
+            } else {
+                JOptionPane.showMessageDialog(
+                    this, "No matching product was found."
+                );
+            }
+        }
+
+    } catch (NumberFormatException ex) {
+        JOptionPane.showMessageDialog(
+            this, "Enter valid numeric values for prices and quantity."
+        );
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(
+            this, "Database error: " + ex.getMessage()
+        );
+        ex.printStackTrace();
+    }
+});
+
+
+
     
 
 
@@ -305,6 +394,8 @@ class InventoryFrame extends JFrame
     loadTable(table1);
     table1.getSelectionModel().addListSelectionListener(epp-> {
 
+        
+
     if (epp.getValueIsAdjusting()) {
         return;
     }
@@ -324,6 +415,9 @@ class InventoryFrame extends JFrame
         sellingPrice.setText(getColumnValue(model, row, "selling_price"));
         Quantity.setText(getColumnValue(model, row, "quantity"));
         TotalCost.setText(getColumnValue(model, row, "total_cost"));
+
+    originalProductId[0] =
+    getColumnValue(model, row, "product_id");
     }
 });
 
@@ -370,6 +464,10 @@ class InventoryFrame extends JFrame
 }
     static void loadTable(JTable table1)
     {
+
+
+        table1.setFont(new Font("Arial", Font.PLAIN, 18));
+        table1.setRowHeight(30);
         // loadd the driver class establish
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
