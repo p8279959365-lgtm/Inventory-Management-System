@@ -228,10 +228,35 @@ class InventoryFrame extends JFrame
         int product_total_cost=Integer.parseInt(TotalCost.getText());
 
 
+
+        
+
+
         try{
             
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection c=DriverManager.getConnection("jdbc:mysql://localHost:3306/Inventory","root","Vikram@300978");
+            
+            // Check whether Product ID already exists
+String checkSql = "SELECT product_id FROM stock WHERE product_id = ?";
+
+try (PreparedStatement checkStmt = c.prepareStatement(checkSql)) {
+
+    checkStmt.setInt(1, product_id);
+
+    try (ResultSet rs = checkStmt.executeQuery()) {
+
+        if (rs.next()) {
+            JOptionPane.showMessageDialog(
+                this,
+                "Product with this ID already exists!"
+            );
+            return; // Stop insertion
+        }
+    }
+}
+
+// If ID does not exist, continue with your INSERT query
             
 
             String sql1="insert into stock values (?,?,?,?,?,?,?)";
@@ -465,9 +490,10 @@ class InventoryFrame extends JFrame
     static void loadTable(JTable table1)
     {
 
-
-        table1.setFont(new Font("Arial", Font.PLAIN, 18));
+        table1.setFont(new Font("Arial", Font.PLAIN, 14));
         table1.setRowHeight(30);
+
+        table1.getTableHeader().setFont(new Font("Arial", Font.BOLD, 16));
         // loadd the driver class establish
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
