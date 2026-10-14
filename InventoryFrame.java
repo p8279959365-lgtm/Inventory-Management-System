@@ -246,7 +246,7 @@ class InventoryFrame extends JFrame
             // setting the value of the textbox as empty after the insertion in database 
             name.setText("");
             id.setText("");
-            supplier.setText("");
+            Supplier.setText("");
             purchasePrice.setText("");
             sellingPrice.setText("");
             Quantity.setText("");
