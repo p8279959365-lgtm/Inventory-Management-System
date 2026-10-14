@@ -195,29 +195,26 @@ class InventoryFrame extends JFrame
      JTextField TotalCost= new JTextField();
     TotalCost.setBounds(120, 260, 130, 30);
     RightSideBar.add(TotalCost);
-
-
-
-
+    
     JButton addStock = new JButton("ADD STOCK");
-addStock.setBounds(20, 370, 130, 35);
-RightSideBar.add(addStock);
-
-JButton updateStock = new JButton("UPDATE STOCK");
-updateStock.setBounds(170, 370, 150, 35);
-RightSideBar.add(updateStock);
-
-JButton deleteStock = new JButton("DELETE STOCK");
-deleteStock.setBounds(20, 420, 130, 35);
-RightSideBar.add(deleteStock);
-
-JButton clearFields = new JButton("CLEAR FIELDS");
-clearFields.setBounds(170, 420, 150, 35);
-RightSideBar.add(clearFields);
-
-JButton refreshTable = new JButton("REFRESH TABLE");
-refreshTable.setBounds(20, 470, 300, 35);
-RightSideBar.add(refreshTable);
+    addStock.setBounds(20, 370, 130, 35);
+    RightSideBar.add(addStock);
+    
+    JButton updateStock = new JButton("UPDATE STOCK");
+    updateStock.setBounds(170, 370, 150, 35);
+    RightSideBar.add(updateStock);
+    
+    JButton deleteStock = new JButton("DELETE STOCK");
+    deleteStock.setBounds(20, 420, 130, 35);
+    RightSideBar.add(deleteStock);
+    
+    JButton clearFields = new JButton("CLEAR FIELDS");
+    clearFields.setBounds(170, 420, 150, 35);
+    RightSideBar.add(clearFields);
+    
+    JButton refreshTable = new JButton("REFRESH TABLE");
+    refreshTable.setBounds(20, 470, 300, 35);
+    RightSideBar.add(refreshTable);
 
 
 
@@ -248,6 +245,9 @@ RightSideBar.add(refreshTable);
             body.add(new ProductFrame());
         }
     });
+
+
+    
 
 
 
