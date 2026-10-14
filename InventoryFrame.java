@@ -216,6 +216,39 @@ class InventoryFrame extends JFrame
     refreshTable.setBounds(20, 470, 300, 35);
     RightSideBar.add(refreshTable);
 
+    addStock.addActionListener(ep ->{
+
+        String Product_name=name.getText();
+        String product_id=id.getText();
+        String product_supplier_id=supplier.getText();
+        int product_supplier=Integer.parseInt(supplier.getText());
+        int product_purchase_price=Integer.parseInt(purchase.getText());
+        int product_selling_price=Integer.parseInt(sales.getText());
+        int product_Quantity=Integer.parseInt(Quantity.getText());
+        int product_total_cost=Integer.parseInt(TotalCost.getText());
+
+
+        try{
+            
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            
+        }
+        catch(Exception p)
+        {
+
+
+        p.printStackTrace();
+
+        JOptionPane.showMessageDialog(null,"Error loading stock: " + p.getMessage());
+
+        }
+    }
+    );
+
+
+
+    
+
 
 
 
