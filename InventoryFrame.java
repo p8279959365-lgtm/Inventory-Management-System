@@ -303,6 +303,30 @@ class InventoryFrame extends JFrame
 
     // Load database records
     loadTable(table1);
+    table1.getSelectionModel().addListSelectionListener(epp-> {
+
+    if (epp.getValueIsAdjusting()) {
+        return;
+    }
+
+    int selectedRow = table1.getSelectedRow();
+
+    if (selectedRow != -1) {
+
+        int row = table1.convertRowIndexToModel(selectedRow);
+
+        javax.swing.table.TableModel model = table1.getModel();
+
+        name.setText(getColumnValue(model, row, "product_name"));
+        id.setText(getColumnValue(model, row, "product_id"));
+        Supplier.setText(getColumnValue(model, row, "supplier"));
+        purchasePrice.setText(getColumnValue(model, row, "purchase_price"));
+        sellingPrice.setText(getColumnValue(model, row, "selling_price"));
+        Quantity.setText(getColumnValue(model, row, "quantity"));
+        TotalCost.setText(getColumnValue(model, row, "total_cost"));
+    }
+});
+
 });
 
 
@@ -326,6 +350,24 @@ class InventoryFrame extends JFrame
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
     // add how to read the table ie table "STOCK " from the data base using the statement 
+
+    static String getColumnValue(
+        javax.swing.table.TableModel model,
+        int row,
+        String columnName) {
+
+    for (int col = 0; col < model.getColumnCount(); col++) {
+
+        if (model.getColumnName(col).equalsIgnoreCase(columnName)) {
+
+            Object value = model.getValueAt(row, col);
+
+            return value == null ? "" : value.toString();
+        }
+    }
+
+    return "";
+}
     static void loadTable(JTable table1)
     {
         // loadd the driver class establish
