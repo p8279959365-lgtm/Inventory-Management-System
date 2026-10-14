@@ -134,7 +134,6 @@ class InventoryFrame extends JFrame
     proname.setBounds(20, 20, 120, 25);
     RightSideBar.add(proname);
 
-    // Add text field
     JTextField name = new JTextField();
     name.setBounds(120, 20, 130, 30);
     RightSideBar.add(name);
@@ -219,11 +218,10 @@ class InventoryFrame extends JFrame
     addStock.addActionListener(ep ->{
 
         String Product_name=name.getText();
-        String product_id=id.getText();
-        String product_supplier_id=supplier.getText();
-        int product_supplier=Integer.parseInt(supplier.getText());
-        int product_purchase_price=Integer.parseInt(purchase.getText());
-        int product_selling_price=Integer.parseInt(sales.getText());
+        int product_id=Integer.parseInt(id.getText());
+        String product_supplier=Supplier.getText();
+        int product_purchase_price=Integer.parseInt(purchasePrice.getText());
+        int product_selling_price=Integer.parseInt(sellingPrice.getText());
         int product_Quantity=Integer.parseInt(Quantity.getText());
         int product_total_cost=Integer.parseInt(TotalCost.getText());
 
@@ -231,6 +229,44 @@ class InventoryFrame extends JFrame
         try{
             
             Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection c=DriverManager.getConnection("jdbc:mysql://localHost:3306/Inventory","root","Vikram@300978");
+            
+
+            String sql1="insert into stock values (?,?,?,?,?,?,?)";
+            PreparedStatement stmt2=c.prepareStatement(sql1);
+            stmt2.setInt(1,product_id);
+            stmt2.setString(2,Product_name);
+            stmt2.setString(3,product_supplier);
+            stmt2.setInt(4,product_purchase_price);
+            stmt2.setInt(5,product_selling_price);
+            stmt2.setInt(6,product_Quantity);
+            stmt2.setInt(7,product_total_cost);
+
+            int r=stmt2.executeUpdate();
+            // setting the value of the textbox as empty after the insertion in database 
+            name.setText("");
+            id.setText("");
+            supplier.setText("");
+            purchasePrice.setText("");
+            sellingPrice.setText("");
+            Quantity.setText("");
+            TotalCost.setText("");
+
+
+            if(r>0)
+            {
+                JOptionPane.showMessageDialog(body,"item added ");
+                loadTable(table1);
+
+            }
+
+            else{
+                JOptionPane.showMessageDialog(body,"item not added");
+            }
+
+            c.close();
+
+
             
         }
         catch(Exception p)
@@ -239,7 +275,7 @@ class InventoryFrame extends JFrame
 
         p.printStackTrace();
 
-        JOptionPane.showMessageDialog(null,"Error loading stock: " + p.getMessage());
+        JOptionPane.showMessageDialog(null,"Error in adding stock: " + p.getMessage());
 
         }
     }
