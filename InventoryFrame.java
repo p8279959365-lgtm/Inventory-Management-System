@@ -21,8 +21,9 @@ class InventoryFrame extends JFrame
     // sidebar.setOpaque(true);
     // coloring the sidebar
     sidebar.setBackground(Color.BLUE);
-   
 
+
+    // I AM GIVIVING  SLANG
 
     // adding sidebar to the inventory frame
     add(sidebar);
