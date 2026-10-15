@@ -314,6 +314,20 @@ try (PreparedStatement checkStmt = c.prepareStatement(checkSql)) {
 
 
 
+    deleteStock.addActionListener(eppp ->{
+        try{
+            
+
+
+        }
+        catch(Exception exp)
+        {
+            JOptionPane.showMessageDialog(this,"the stock cannot be deleted there was some error");
+        }
+    });
+
+
+
     updateStock.addActionListener(epp -> {
 
     if (originalProductId[0] == null) {
