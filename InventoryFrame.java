@@ -63,7 +63,7 @@ class InventoryFrame extends JFrame
     
     // NOW WORKING IN THE MAIN AREA 
     JPanel body=new JPanel();
-    body.setBounds(150,20,1000,1000);
+    body.setBounds(150,20,1000,600);
     add(body);
     body.setLayout(null);
 
@@ -72,6 +72,32 @@ class InventoryFrame extends JFrame
     RightSideBar.setBounds(1150,10,800,1000);
     RightSideBar.setVisible(true);
     add(RightSideBar);
+
+
+
+
+    // adding the total cost at the bottom of the table
+
+    JPanel lowerbar=new JPanel();
+    lowerbar.setBounds(150,620,1000,400);
+    lowerbar.setVisible(true);
+    add(lowerbar);
+
+    // adding the total cost lable at bottom
+
+    JLabel costLabel=new JLabel("total Inventory : ");
+    costLabel.setFont(new Font("Arial", Font.BOLD, 22));
+    costLabel.setForeground(new Color(22, 163, 74));
+    costLabel.setBounds(500,650,200,50);
+    lowerbar.add(costLabel);
+
+    
+
+
+
+
+
+
 
 
 
