@@ -23,8 +23,6 @@ class InventoryFrame extends JFrame
     sidebar.setBackground(Color.BLUE);
 
 
-    // I AM GIVIVING  SLANG
-
     // adding sidebar to the inventory frame
     add(sidebar);
 
@@ -39,11 +37,27 @@ class InventoryFrame extends JFrame
     add(lheading);
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     
     // NOW WORKING IN THE MAIN AREA 
     JPanel body=new JPanel();
-    body.setBounds(150,10,1000,1000);
-    body.setBackground(Color.PINK);
+    body.setBounds(150,20,1000,1000);
     add(body);
     body.setLayout(null);
 
@@ -297,7 +311,7 @@ Quantity.getDocument().addDocumentListener(new javax.swing.event.DocumentListene
         int product_purchase_price=Integer.parseInt(purchasePrice.getText());
         int product_selling_price=Integer.parseInt(sellingPrice.getText());
         int product_Quantity=Integer.parseInt(Quantity.getText());
-        int product_total_cost=Integer.parseInt(TotalCost.getText());
+        float product_total_cost=Float.parseFloat(TotalCost.getText());
 
 
 
@@ -339,7 +353,7 @@ try (PreparedStatement checkStmt = c.prepareStatement(checkSql)) {
             stmt2.setInt(4,product_purchase_price);
             stmt2.setInt(5,product_selling_price);
             stmt2.setInt(6,product_Quantity);
-            stmt2.setInt(7,product_total_cost);
+            stmt2.setFloat(7,product_total_cost);
 
             int r=stmt2.executeUpdate();
             // setting the value of the textbox as empty after the insertion in database 
@@ -435,7 +449,7 @@ try (PreparedStatement checkStmt = c.prepareStatement(checkSql)) {
         int purchasee = Integer.parseInt(purchasePrice.getText().trim());
         int selling = Integer.parseInt(sellingPrice.getText().trim());
         int qty = Integer.parseInt(Quantity.getText().trim());
-        int total = Integer.parseInt(TotalCost.getText().trim());
+        Float total = Float.parseFloat(TotalCost.getText().trim());
 
         String sql = "UPDATE stock SET "
                 + "product_name = ?, "
@@ -459,7 +473,7 @@ try (PreparedStatement checkStmt = c.prepareStatement(checkSql)) {
             ps.setInt(4, purchasee);
             ps.setInt(5, selling);
             ps.setInt(6, qty);
-            ps.setInt(7, total);
+            ps.setFloat(7, total);
 
             // Find the original record, even if its ID was edited
             ps.setString(8, originalProductId[0]);
