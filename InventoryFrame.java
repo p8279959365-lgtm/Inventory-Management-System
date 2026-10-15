@@ -83,6 +83,26 @@ class InventoryFrame extends JFrame
     lowerbar.setVisible(true);
     add(lowerbar);
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     // adding the total cost lable at bottom
 
     JLabel costLabel=new JLabel("total Inventory : ");
@@ -91,7 +111,49 @@ class InventoryFrame extends JFrame
     costLabel.setBounds(500,650,200,50);
     lowerbar.add(costLabel);
 
+    try{
+    Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection c=DriverManager.getConnection("jdbc:mysql://localHost:3306/Inventory","root","Vikram@300978");
+
+
+            String sql = "SELECT COALESCE(SUM(total_cost), 0) AS total_inventory_cost FROM stock";
+
+PreparedStatement ps = c.prepareStatement(sql);
+ResultSet rs = ps.executeQuery();
+
+if (rs.next()) {
+    double totalCost = rs.getDouble("total_inventory_cost");
+    costLabel.setText("Total Inventory Cost: ₹" + totalCost);
+}
+    }
+    catch(Exception e)
+    {
+
+    }   
     
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
 
 
 
