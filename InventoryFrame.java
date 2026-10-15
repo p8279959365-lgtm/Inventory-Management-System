@@ -85,7 +85,7 @@ class InventoryFrame extends JFrame
     sidebar.add(purchase);
 
 
-    
+
     // adding the stock button button
     stock=new JButton("STOCK");
     stock.setBounds(20,160,120,30);
@@ -157,7 +157,7 @@ RightSideBar.setBackground(Color.WHITE);
     // Create stock table
     JTable table1 = new JTable();
     JScrollPane sp = new JScrollPane(table1);
-    sp.setBounds(80, 30, 900, 850);
+    sp.setBounds(80, 30, 900, 600);
     body.add(sp);
 
     // Add Product Name label
