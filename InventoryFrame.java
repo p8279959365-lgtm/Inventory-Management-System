@@ -83,6 +83,8 @@ class InventoryFrame extends JFrame
     purchase=new JButton("PURCHASE");
     purchase.setBounds(20,120,120,30);
     sidebar.add(purchase);
+
+
     
     // adding the stock button button
     stock=new JButton("STOCK");
