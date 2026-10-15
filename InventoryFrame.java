@@ -10,6 +10,12 @@ class InventoryFrame extends JFrame
     setSize(1000,1000);
     setLayout(null);
 
+
+
+
+
+    
+
     
     // crating buttons for the navigation
     JButton product,sales,purchase,billing,supplier,stock,customer;
@@ -66,6 +72,17 @@ class InventoryFrame extends JFrame
     RightSideBar.setBounds(1150,10,800,1000);
     RightSideBar.setVisible(true);
     add(RightSideBar);
+
+
+
+
+
+
+
+
+
+
+
 
 
     // adding the product
@@ -602,7 +619,6 @@ refreshTable.addActionListener(reft ->{
 
 
     
-
 
 
 
