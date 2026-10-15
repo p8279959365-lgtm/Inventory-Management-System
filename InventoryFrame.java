@@ -460,8 +460,9 @@ clearFields.addActionListener(clf ->{
 });
 
 refreshTable.addActionListener(reft ->{
-
-})
+    loadTable(table1);
+    JOptionPane.showMessageDialog(this,"Table refreshed");
+});
 
 
 
