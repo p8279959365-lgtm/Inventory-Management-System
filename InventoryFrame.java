@@ -209,6 +209,63 @@ RightSideBar.setBackground(Color.WHITE);
      JTextField TotalCost= new JTextField();
     TotalCost.setBounds(120, 260, 130, 30);
     RightSideBar.add(TotalCost);
+
+
+
+    // Calculate total cost automatically
+purchasePrice.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
+
+    public void insertUpdate(javax.swing.event.DocumentEvent e) {
+        calculateTotalCost();
+    }
+
+    public void removeUpdate(javax.swing.event.DocumentEvent e) {
+        calculateTotalCost();
+    }
+
+    public void changedUpdate(javax.swing.event.DocumentEvent e) {
+        calculateTotalCost();
+    }
+
+    private void calculateTotalCost() {
+        try {
+            double price = Double.parseDouble(purchasePrice.getText());
+            int qty = Integer.parseInt(Quantity.getText());
+
+            TotalCost.setText(String.valueOf(price * qty));
+
+        } catch (NumberFormatException ex) {
+            TotalCost.setText("");
+        }
+    }
+});
+
+Quantity.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
+
+    public void insertUpdate(javax.swing.event.DocumentEvent e) {
+        calculateTotalCost();
+    }
+
+    public void removeUpdate(javax.swing.event.DocumentEvent e) {
+        calculateTotalCost();
+    }
+
+    public void changedUpdate(javax.swing.event.DocumentEvent e) {
+        calculateTotalCost();
+    }
+
+    private void calculateTotalCost() {
+        try {
+            double price = Double.parseDouble(purchasePrice.getText());
+            int qty = Integer.parseInt(Quantity.getText());
+
+            TotalCost.setText(String.valueOf(price * qty));
+
+        } catch (NumberFormatException ex) {
+            TotalCost.setText("");
+        }
+    }
+});
     
     JButton addStock = new JButton("ADD STOCK");
     addStock.setBounds(20, 370, 130, 35);
