@@ -314,24 +314,39 @@ try (PreparedStatement checkStmt = c.prepareStatement(checkSql)) {
 
 
 
-    // deleteStock.addActionListener(eppp ->{
-    //     try{
+    deleteStock.addActionListener(eppp ->{
+        try{
 
-    //         Class.forName("com.cj.jdbc.Driver");
-    //         Connection conn=DriverManager.getConnection("mysql:jdbc://localhost:3306/:Inventory","root","Vikram@300978");
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/Inventory","root","Vikram@300978");
 
-    //         String id_to_be_deleted=id.getText();
+            int id_to_be_deleted=Integer.parseInt(id.getText());
 
-    //         PreparedStatement stmt1=conn.prepareStatement("delete from stock where ")
+            PreparedStatement stmt1=conn.prepareStatement("delete from stock where PRODUCT_ID= ? ");
+
+            stmt1.setInt(1,id_to_be_deleted);
+
+            int del=stmt1.executeUpdate();
+
+            if(del>0)
+            {
+                JOptionPane.showMessageDialog(this," ITEM DELETED");
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(this," ITEM NOT DELETED");
+            }
+            loadTable(table1);
+
+            conn.close();
 
 
-
-    //     }
-    //     catch(Exception exp)
-    //     {
-    //         JOptionPane.showMessageDialog(this,"the stock cannot be deleted there was some error");
-    //     }
-    // });
+        }
+        catch(Exception exp)
+        {
+            JOptionPane.showMessageDialog(this,"the stock cannot be deleted there was some error");
+        }
+    });
 
 
 
