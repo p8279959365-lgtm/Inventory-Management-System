@@ -28,6 +28,9 @@ class InventoryFrame extends JFrame
     // adding sidebar to the inventory frame
     add(sidebar);
 
+    //
+    
+
 
     // adding the label of inventory management system
     JLabel lheading=new JLabel("INVENTORY MANAGEMENT SYSTEM");
