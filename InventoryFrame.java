@@ -90,6 +90,17 @@ class InventoryFrame extends JFrame
     billing.setBounds(20,280,120,30);
     sidebar.add(billing);
 
+
+
+    // Sidebar
+sidebar.setBackground(new Color(30, 41, 59));
+
+// Main body
+body.setBackground(new Color(241, 245, 249));
+
+// Right sidebar
+RightSideBar.setBackground(Color.WHITE);
+
     // adding the table of stock
     
     // stock.addActionListener(new ActionListener(){
@@ -434,6 +445,23 @@ try (PreparedStatement checkStmt = c.prepareStatement(checkSql)) {
         ex.printStackTrace();
     }
 });
+
+
+clearFields.addActionListener(clf ->{
+
+     name.setText("");
+            id.setText("");
+            Supplier.setText("");
+            purchasePrice.setText("");
+            sellingPrice.setText("");
+            Quantity.setText("");
+            TotalCost.setText("");
+
+});
+
+refreshTable.addActionListener(reft ->{
+
+})
 
 
 
