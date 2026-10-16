@@ -22,7 +22,7 @@ class InventoryFrame extends JFrame
     // panel for side bar
     JPanel sidebar=new JPanel();
     // positioning the sidebar
-    sidebar.setBounds(0, 10, 180, 1000);
+    sidebar.setBounds(0, 0, 180, 950);
     sidebar.setLayout(null);
     // sidebar.setOpaque(true);
     // coloring the sidebar
@@ -60,17 +60,20 @@ class InventoryFrame extends JFrame
 
 
 
+
+
+
     
     // NOW WORKING IN THE MAIN AREA 
     JPanel body=new JPanel();
-    body.setBounds(170,40,980,600);
+    body.setBounds(200, 50, 950, 650);
     add(body);
     body.setLayout(null);
     
 
     // adding the right sidebar
     JPanel RightSideBar=new JPanel();
-    RightSideBar.setBounds(1150, 10, 350, 1000);
+    RightSideBar.setBounds(1200, 40, 350, 580);
     RightSideBar.setVisible(true);
     add(RightSideBar);
 
@@ -80,7 +83,7 @@ class InventoryFrame extends JFrame
     // adding the total cost at the bottom of the table
 
     JPanel lowerbar=new JPanel();
-    lowerbar.setBounds(150,620,1000,400);
+    lowerbar.setBounds(180, 620, 820, 80);
     lowerbar.setVisible(true);
     add(lowerbar);
 
@@ -241,8 +244,8 @@ RightSideBar.setBackground(Color.WHITE);
     // Create stock table
     JTable table1 = new JTable();
     JScrollPane sp = new JScrollPane(table1);
-    sp.setBounds(80, 30, 900, 600);
-    body.add(sp);
+sp.setBounds(0, 0, body.getWidth(), body.getHeight());
+body.add(sp);
 
     // Add Product Name label
     JLabel proname = new JLabel("Product Name");
@@ -316,7 +319,7 @@ RightSideBar.setBackground(Color.WHITE);
             Connection c=DriverManager.getConnection("jdbc:mysql://localHost:3306/Inventory","root","Vikram@300978");
 
 
-            String sql = "SELECT COALESCE(SUM(total_cost), 0) AS total_inventory_cost FROM stock";
+            String sql = "SELECT COALESCE(SUM(total), 0) AS total_inventory_cost FROM stock";
 
 PreparedStatement ps = c.prepareStatement(sql);
 ResultSet rs = ps.executeQuery();
