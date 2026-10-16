@@ -105,31 +105,9 @@ class InventoryFrame extends JFrame
 
     // adding the total cost lable at bottom
 
-    JLabel costLabel=new JLabel("total Inventory : ");
-    costLabel.setFont(new Font("Arial", Font.BOLD, 22));
-    costLabel.setForeground(new Color(22, 163, 74));
-    costLabel.setBounds(500,650,200,50);
-    lowerbar.add(costLabel);
+  
 
-    try{
-    Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection c=DriverManager.getConnection("jdbc:mysql://localHost:3306/Inventory","root","Vikram@300978");
-
-
-            String sql = "SELECT COALESCE(SUM(total_cost), 0) AS total_inventory_cost FROM stock";
-
-PreparedStatement ps = c.prepareStatement(sql);
-ResultSet rs = ps.executeQuery();
-
-if (rs.next()) {
-    double totalCost = rs.getDouble("total_inventory_cost");
-    costLabel.setText("Total Inventory Cost: ₹" + totalCost);
-}
-    }
-    catch(Exception e)
-    {
-
-    }   
+   
     
     
 
@@ -332,6 +310,36 @@ RightSideBar.setBackground(Color.WHITE);
     RightSideBar.add(TotalCost);
 
 
+     try{
+    Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection c=DriverManager.getConnection("jdbc:mysql://localHost:3306/Inventory","root","Vikram@300978");
+
+
+            String sql = "SELECT COALESCE(SUM(total_cost), 0) AS total_inventory_cost FROM stock";
+
+PreparedStatement ps = c.prepareStatement(sql);
+ResultSet rs = ps.executeQuery();
+
+if (rs.next()) {
+
+
+      JLabel costLabel=new JLabel("total Inventory : ");
+    costLabel.setFont(new Font("Arial", Font.BOLD, 22));
+    costLabel.setForeground(new Color(22, 163, 74));
+    costLabel.setBounds(500,650,200,50);
+    lowerbar.add(costLabel);
+    double totalCost = rs.getDouble("total_inventory_cost");
+    costLabel.setText("Total Inventory Cost: ₹" + totalCost);
+}
+    }
+    catch(Exception exp)
+    {
+
+        JOptionPane.showMessageDialog(this,"the inventory cost cannot be displayed");
+
+    }   
+
+
 
     // Calculate total cost automatically
 purchasePrice.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
@@ -409,6 +417,18 @@ Quantity.getDocument().addDocumentListener(new javax.swing.event.DocumentListene
     RightSideBar.add(refreshTable);
 
     String[] originalProductId = {null};
+
+
+
+
+
+
+
+
+
+
+
+
 
     addStock.addActionListener(ep ->{
 
@@ -503,6 +523,19 @@ try (PreparedStatement checkStmt = c.prepareStatement(checkSql)) {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
     deleteStock.addActionListener(eppp ->{
         try{
 
@@ -536,6 +569,21 @@ try (PreparedStatement checkStmt = c.prepareStatement(checkSql)) {
             JOptionPane.showMessageDialog(this,"the stock cannot be deleted there was some error");
         }
     });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -623,6 +671,20 @@ try (PreparedStatement checkStmt = c.prepareStatement(checkSql)) {
         ex.printStackTrace();
     }
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 clearFields.addActionListener(clf ->{
@@ -778,5 +840,5 @@ refreshTable.addActionListener(reft ->{
         }
     }
 
-    
+
 }
