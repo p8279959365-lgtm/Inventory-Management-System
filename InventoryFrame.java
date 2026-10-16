@@ -22,7 +22,7 @@ class InventoryFrame extends JFrame
     // panel for side bar
     JPanel sidebar=new JPanel();
     // positioning the sidebar
-    sidebar.setBounds(0,10,180,1000);
+    sidebar.setBounds(0, 10, 180, 1000);
     sidebar.setLayout(null);
     // sidebar.setOpaque(true);
     // coloring the sidebar
@@ -63,13 +63,14 @@ class InventoryFrame extends JFrame
     
     // NOW WORKING IN THE MAIN AREA 
     JPanel body=new JPanel();
-    body.setBounds(150,20,1000,600);
+    body.setBounds(170,40,980,600);
     add(body);
     body.setLayout(null);
+    
 
     // adding the right sidebar
     JPanel RightSideBar=new JPanel();
-    RightSideBar.setBounds(1150,10,800,1000);
+    RightSideBar.setBounds(1150, 10, 350, 1000);
     RightSideBar.setVisible(true);
     add(RightSideBar);
 
@@ -842,3 +843,9 @@ refreshTable.addActionListener(reft ->{
 
 
 }
+
+
+
+
+
+
