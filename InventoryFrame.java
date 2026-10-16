@@ -151,7 +151,7 @@ if (rs.next()) {
 
 
 
-    
+
 
 
 
@@ -695,8 +695,6 @@ refreshTable.addActionListener(reft ->{
 
 });
 
-
-
     product.addActionListener(new ActionListener(){
         public void actionPerformed(ActionEvent e)
         {
@@ -704,10 +702,6 @@ refreshTable.addActionListener(reft ->{
             body.add(new ProductFrame());
         }
     });
-
-
-    
-
 
 
 
