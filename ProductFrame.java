@@ -166,11 +166,65 @@ addButton.addActionListener(e -> {
     }
 });
 
-        updateButton.addActionListener(e ->
-            JOptionPane.showMessageDialog(
-                this, "Select a product row before connecting the UPDATE query."
-            )
+
+updateButton.addActionListener(e -> {
+    int row = table.getSelectedRow();
+
+    if (row == -1) {
+        JOptionPane.showMessageDialog(
+            this, "Please select a product from the table first."
         );
+        return;
+    }
+
+    try {
+        String sql = "UPDATE product SET PRODUCT_NAME=?, SUPPLIER=?, " +
+            "PURCHASE_PRICE=?, SELLING_PRICE=?, QUANTITY=? " +
+            "WHERE PRODUCT_ID=?";
+
+        try (Connection con = DriverManager.getConnection(
+                 "jdbc:mysql://localhost:3306/Inventory",
+                 "root",
+                 System.getenv("DB_PASSWORD"));
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setString(1, ProductName.getText().trim());
+            ps.setString(2, Supplier.getText().trim());
+            ps.setInt(3, Integer.parseInt(PurchasePrice.getText().trim()));
+            ps.setInt(4, Integer.parseInt(SellingPrice.getText().trim()));
+            ps.setInt(5, Integer.parseInt(Quantity.getText().trim()));
+
+            // Use the original ID of the selected database row
+            ps.setInt(6, Integer.parseInt(
+                model.getValueAt(row, 0).toString()
+            ));
+
+            int updated = ps.executeUpdate();
+
+            if (updated > 0) {
+                JOptionPane.showMessageDialog(
+                    this, "Product updated successfully!"
+                );
+                loadTable();
+                table.clearSelection();
+            } else {
+                JOptionPane.showMessageDialog(
+                    this, "Product was not found."
+                );
+            }
+        }
+
+    } catch (NumberFormatException ex) {
+        JOptionPane.showMessageDialog(
+            this, "Prices and quantity must be valid integers."
+        );
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(
+            this, "Could not update product: " + ex.getMessage()
+        );
+    }
+});
+
     }
 
     private JTextField addField(String labelText, int y) {
