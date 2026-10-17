@@ -156,47 +156,57 @@ class ProductFrame extends JPanel {
         return field;
     }
 
-    private void loadTable() {
-        // Replace these connection details with your existing
-        // InventoryFrame JDBC connection settings.
-        String url = "jdbc:mysql://localhost:3306/Inventory";
-        String user = "root";
-        String password = System.getenv("DB_PASSWORD");
 
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
+    
+private void loadTable() {
+    String url = "jdbc:mysql://localhost:3306/Inventory";
+    String user = "root";
+    String password = System.getenv("DB_PASSWORD");
 
-            try (Connection con =
-                     DriverManager.getConnection(url, user, password);
-                 Statement st = con.createStatement();
-                 ResultSet rs = st.executeQuery("SELECT * FROM product")) {
+    String query =
+        "SELECT PRODUCT_ID, PRODUCT_NAME, SUPPLIER, " +
+        "PURCHASE_PRICE, SELLING_PRICE, QUANTITY, " +
+        "(PURCHASE_PRICE * QUANTITY) AS TOTAL_COST " +
+        "FROM product";
 
-                model.setRowCount(0);
-                model.setColumnCount(0);
+    try {
+        Class.forName("com.mysql.cj.jdbc.Driver");
 
-                ResultSetMetaData rsmd = rs.getMetaData();
-                int columns = rsmd.getColumnCount();
+        try (Connection con =
+                 DriverManager.getConnection(url, user, password);
+             Statement st = con.createStatement();
+             ResultSet rs = st.executeQuery(query)) {
 
-                for (int i = 1; i <= columns; i++) {
-                    model.addColumn(rsmd.getColumnLabel(i));
-                }
+            model.setRowCount(0);
+            model.setColumnCount(0);
 
-                while (rs.next()) {
-                    Object[] row = new Object[columns];
+            String[] columns = {
+                "PRODUCT_ID", "PRODUCT_NAME", "SUPPLIER",
+                "PURCHASE_PRICE", "SELLING_PRICE",
+                "QUANTITY", "TOTAL_COST"
+            };
 
-                    for (int i = 1; i <= columns; i++) {
-                        row[i - 1] = rs.getObject(i);
-                    }
-
-                    model.addRow(row);
-                }
+            for (String column : columns) {
+                model.addColumn(column);
             }
 
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(
-                this,
-                "Could not load products: " + ex.getMessage()
-            );
+            while (rs.next()) {
+                Object[] row = new Object[7];
+
+                for (int i = 1; i <= 7; i++) {
+                    row[i - 1] = rs.getObject(i);
+                }
+
+                model.addRow(row);
+            }
         }
+
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(
+            this, "Could not load products: " + ex.getMessage()
+        );
     }
+}
+
+   
 }
