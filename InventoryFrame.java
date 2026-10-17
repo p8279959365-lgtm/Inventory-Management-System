@@ -665,8 +665,15 @@ refreshTable.addActionListener(reft ->{
     product.addActionListener(new ActionListener(){
         public void actionPerformed(ActionEvent e)
         {
+            JOptionPane.showMessageDialog(body,"WELCOME TO PRODUCT SECTION");
             body.removeAll();
             body.add(new ProductFrame());
+            body.revalidate();
+            body.repaint();
+
+            RightSideBar.removeAll();
+            RightSideBar.revalidate();
+            RightSideBar.repaint();
         }
     });
 
