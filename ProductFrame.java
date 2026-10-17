@@ -70,7 +70,7 @@ class ProductFrame extends JPanel {
         rightSidebar = new JPanel();
         rightSidebar.setLayout(null);
         rightSidebar.setBackground(Color.WHITE);
-        rightSidebar.setBounds(690, 70, 240, 540);
+        rightSidebar.setBounds(690, 70, 800, 540);
         add(rightSidebar);
 
         JLabel formHeading = new JLabel("Product Details");
@@ -141,7 +141,7 @@ addButton.addActionListener(e -> {
         try (Connection con = DriverManager.getConnection(
                  "jdbc:mysql://localhost:3306/Inventory",
                  "root",
-                 System.getenv("DB_PASSWORD"));
+                 "Vikram@300978");
              PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setInt(1, Integer.parseInt(ProductId.getText().trim()));
@@ -185,7 +185,7 @@ updateButton.addActionListener(e -> {
         try (Connection con = DriverManager.getConnection(
                  "jdbc:mysql://localhost:3306/Inventory",
                  "root",
-                 System.getenv("DB_PASSWORD"));
+                 "Vikram@300978");
              PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setString(1, ProductName.getText().trim());
@@ -224,6 +224,7 @@ updateButton.addActionListener(e -> {
         );
     }
 });
+
 
     }
 

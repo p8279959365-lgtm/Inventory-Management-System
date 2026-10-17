@@ -667,7 +667,13 @@ refreshTable.addActionListener(reft ->{
         {
             JOptionPane.showMessageDialog(body,"WELCOME TO PRODUCT SECTION");
             body.removeAll();
-            body.add(new ProductFrame());
+            ProductFrame productFrame = new ProductFrame();
+            body.add(productFrame);
+            productFrame.setBounds(
+        0, 0,
+        body.getWidth(),
+        body.getHeight()
+    );
             body.revalidate();
             body.repaint();
 
