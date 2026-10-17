@@ -88,73 +88,6 @@ class InventoryFrame extends JFrame
     add(lowerbar);
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // adding the total cost lable at bottom
-
-  
-
-   
-    
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     // adding the product
     product=new JButton("PRODUCT");
     product.setBounds(20,40,120,30);
@@ -200,42 +133,11 @@ sidebar.setBackground(new Color(30, 41, 59));
 
 // Main body
 body.setBackground(new Color(241, 245, 249));
-
-// Right sidebar
 RightSideBar.setBackground(Color.WHITE);
 
-    // adding the table of stock
-    
-    // stock.addActionListener(new ActionListener(){
-    //     public void actionPerformed(ActionEvent e)
-    //     {
-    //         JLabel proname,proid,probrand,prounitprice,proquantity,prototalcost;
-    //         JTextField name,id,brand,unitprice,quantity,totalcost;
-    //         RightSideBar.removeAll();
-
-    //         proname=new JLabel("Product name");
-    //         name=new JTextField("");
-
-    //        proname.setBounds(10, 20, 120, 25);
-
-    //         name.setBounds(10,30,100,30);
-    //         RightSideBar.add(proname);
-    //         RightSideBar.add(name);
-
-    //          JTable table1=new JTable();
-    //         JScrollPane sp=new JScrollPane(table1);
-    //         sp.setBounds(100,0,800,1000);
-    //         body.add(sp);
-    //         loadTable(table1);
-
-            
-
-    //     }
-    // });
-    
 
 
-    stock.addActionListener(e -> {
+stock.addActionListener(e -> {
 
     body.removeAll();
     RightSideBar.removeAll();
@@ -244,8 +146,8 @@ RightSideBar.setBackground(Color.WHITE);
     // Create stock table
     JTable table1 = new JTable();
     JScrollPane sp = new JScrollPane(table1);
-sp.setBounds(0, 0, body.getWidth(), body.getHeight());
-body.add(sp);
+    sp.setBounds(0, 0, body.getWidth(), body.getHeight());
+    body.add(sp);
 
     // Add Product Name label
     JLabel proname = new JLabel("Product Name");
@@ -325,12 +227,10 @@ PreparedStatement ps = c.prepareStatement(sql);
 ResultSet rs = ps.executeQuery();
 
 if (rs.next()) {
-
-
-      JLabel costLabel=new JLabel("total Inventory : ");
+    JLabel costLabel=new JLabel("total Inventory : ");
     costLabel.setFont(new Font("Arial", Font.BOLD, 22));
     costLabel.setForeground(new Color(22, 163, 74));
-    costLabel.setBounds(500,650,200,50);
+    costLabel.setBounds(500,780,200,50);
     lowerbar.add(costLabel);
     double totalCost = rs.getDouble("total_inventory_cost");
     costLabel.setText("Total Inventory Cost: ₹" + totalCost);
@@ -429,7 +329,7 @@ Quantity.getDocument().addDocumentListener(new javax.swing.event.DocumentListene
 
 
 
-
+//total_cost
 
 
 
@@ -617,8 +517,9 @@ try (PreparedStatement checkStmt = c.prepareStatement(checkSql)) {
                 + "purchase_price = ?, "
                 + "selling_price = ?, "
                 + "quantity = ?, "
-                + "total_cost = ? "
+                + "total = ? "
                 + "WHERE product_id = ?";
+
 
         try (Connection con = DriverManager.getConnection(
                     "jdbc:mysql://localhost:3306/Inventory",
@@ -752,7 +653,7 @@ refreshTable.addActionListener(reft ->{
         purchasePrice.setText(getColumnValue(model, row, "purchase_price"));
         sellingPrice.setText(getColumnValue(model, row, "selling_price"));
         Quantity.setText(getColumnValue(model, row, "quantity"));
-        TotalCost.setText(getColumnValue(model, row, "total_cost"));
+        TotalCost.setText(getColumnValue(model, row, "total"));
 
     originalProductId[0] =
     getColumnValue(model, row, "product_id");
