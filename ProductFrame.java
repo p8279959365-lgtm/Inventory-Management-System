@@ -46,6 +46,7 @@ class ProductFrame extends JPanel {
 
         setLayout(null);
         setBackground(new Color(241, 245, 249));
+        setBounds(880, 20, 1000, 1000);
 
         // Heading
         JLabel heading = new JLabel("PRODUCT MANAGEMENT");
@@ -70,7 +71,7 @@ class ProductFrame extends JPanel {
         rightSidebar = new JPanel();
         rightSidebar.setLayout(null);
         rightSidebar.setBackground(Color.WHITE);
-        rightSidebar.setBounds(690, 70, 800, 540);
+        rightSidebar.setBounds(660, 70, 270, 540);
         add(rightSidebar);
 
         JLabel formHeading = new JLabel("Product Details");
