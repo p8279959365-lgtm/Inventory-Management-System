@@ -130,12 +130,41 @@ class ProductFrame extends JPanel {
             }
         });
 
-        // Add and update actions will be connected to SQL next.
-        addButton.addActionListener(e ->
-            JOptionPane.showMessageDialog(
-                this, "Next, connect this button to your product INSERT query."
-            )
-        );
+       
+addButton.addActionListener(e -> {
+    try {
+        String sql = "INSERT INTO product " +
+            "(PRODUCT_ID, PRODUCT_NAME, SUPPLIER, " +
+            "PURCHASE_PRICE, SELLING_PRICE, QUANTITY) " +
+            "VALUES (?, ?, ?, ?, ?, ?)";
+
+        try (Connection con = DriverManager.getConnection(
+                 "jdbc:mysql://localhost:3306/Inventory",
+                 "root",
+                 System.getenv("DB_PASSWORD"));
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, Integer.parseInt(ProductId.getText().trim()));
+            ps.setString(2, ProductName.getText().trim());
+            ps.setString(3, Supplier.getText().trim());
+            ps.setInt(4, Integer.parseInt(PurchasePrice.getText().trim()));
+            ps.setInt(5, Integer.parseInt(SellingPrice.getText().trim()));
+            ps.setInt(6, Integer.parseInt(Quantity.getText().trim()));
+
+            ps.executeUpdate();
+
+            JOptionPane.showMessageDialog(this, "Product added successfully!");
+            loadTable();
+        }
+
+    } catch (NumberFormatException ex) {
+        JOptionPane.showMessageDialog(this,
+            "Product ID, prices and quantity must be valid integers.");
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(this,
+            "Could not add product: " + ex.getMessage());
+    }
+});
 
         updateButton.addActionListener(e ->
             JOptionPane.showMessageDialog(
