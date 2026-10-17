@@ -159,10 +159,6 @@ class ProductFrame extends JPanel {
 
     
 private void loadTable() {
-    String url = "jdbc:mysql://localhost:3306/Inventory";
-    String user = "root";
-    String password = System.getenv("DB_PASSWORD");
-
     String query =
         "SELECT PRODUCT_ID, PRODUCT_NAME, SUPPLIER, " +
         "PURCHASE_PRICE, SELLING_PRICE, QUANTITY, " +
@@ -173,7 +169,7 @@ private void loadTable() {
         Class.forName("com.mysql.cj.jdbc.Driver");
 
         try (Connection con =
-                 DriverManager.getConnection(url, user, password);
+                 DriverManager.getConnection("jdbc:mysql://localhost:3306/Inventory","root","Vikram@300978");
              Statement st = con.createStatement();
              ResultSet rs = st.executeQuery(query)) {
 
