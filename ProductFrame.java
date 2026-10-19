@@ -98,6 +98,9 @@ class ProductFrame extends JPanel {
         updateButton.setBounds(15, 500, 210, 30);
         rightSidebar.add(updateButton);
 
+        JButton deleteButton=new JButton("DELETE PRODUCT");
+        deleteButton.setBounds(15,535,210,30);
+        rightSidebar.add(deleteButton);
         // Load table when the screen opens
         loadTable();
 

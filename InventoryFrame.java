@@ -1107,7 +1107,6 @@ public class InventoryFrame extends JFrame {
                 // YAHA TAK
                 }
             }
-            
             JOptionPane.showMessageDialog(this, "Stock added successfully.");
             clearStockFields();
             loadStockTable();
