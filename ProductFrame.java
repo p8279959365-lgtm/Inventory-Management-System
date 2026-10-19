@@ -84,14 +84,15 @@ class ProductFrame extends JPanel {
         Supplier = addField("Supplier", 170);
         PurchasePrice = addField("Purchase Price", 230);
         SellingPrice = addField("Selling Price", 290);
-        Quantity = addField("Quantity", 350);
-        TotalCost = addField("Total Cost", 410);
 
-        TotalCost.setEditable(false);
+
+
 
         JButton addButton = new JButton("ADD PRODUCT");
         addButton.setBounds(15, 465, 210, 30);
         rightSidebar.add(addButton);
+
+
 
         JButton updateButton = new JButton("UPDATE PRODUCT");
         updateButton.setBounds(15, 500, 210, 30);
@@ -121,12 +122,6 @@ class ProductFrame extends JPanel {
                     SellingPrice.setText(
                         String.valueOf(model.getValueAt(row, 4))
                     );
-                    Quantity.setText(
-                        String.valueOf(model.getValueAt(row, 5))
-                    );
-                    TotalCost.setText(
-                        String.valueOf(model.getValueAt(row, 6))
-                    );
                 }
             }
         });
@@ -136,8 +131,8 @@ addButton.addActionListener(e -> {
     try {
         String sql = "INSERT INTO product " +
             "(PRODUCT_ID, PRODUCT_NAME, SUPPLIER, " +
-            "PURCHASE_PRICE, SELLING_PRICE, QUANTITY) " +
-            "VALUES (?, ?, ?, ?, ?, ?)";
+            "PURCHASE_PRICE, SELLING_PRICE) " +
+            "VALUES (?, ?, ?, ?, ?)";
 
         try (Connection con = DriverManager.getConnection(
                  "jdbc:mysql://localhost:3306/Inventory",
@@ -150,8 +145,6 @@ addButton.addActionListener(e -> {
             ps.setString(3, Supplier.getText().trim());
             ps.setInt(4, Integer.parseInt(PurchasePrice.getText().trim()));
             ps.setInt(5, Integer.parseInt(SellingPrice.getText().trim()));
-            ps.setInt(6, Integer.parseInt(Quantity.getText().trim()));
-
             ps.executeUpdate();
 
             JOptionPane.showMessageDialog(this, "Product added successfully!");
@@ -180,7 +173,7 @@ updateButton.addActionListener(e -> {
 
     try {
         String sql = "UPDATE product SET PRODUCT_NAME=?, SUPPLIER=?, " +
-            "PURCHASE_PRICE=?, SELLING_PRICE=?, QUANTITY=? " +
+            "PURCHASE_PRICE=?, SELLING_PRICE=? " +
             "WHERE PRODUCT_ID=?";
 
         try (Connection con = DriverManager.getConnection(
@@ -193,10 +186,8 @@ updateButton.addActionListener(e -> {
             ps.setString(2, Supplier.getText().trim());
             ps.setInt(3, Integer.parseInt(PurchasePrice.getText().trim()));
             ps.setInt(4, Integer.parseInt(SellingPrice.getText().trim()));
-            ps.setInt(5, Integer.parseInt(Quantity.getText().trim()));
-
             // Use the original ID of the selected database row
-            ps.setInt(6, Integer.parseInt(
+            ps.setInt(5, Integer.parseInt(
                 model.getValueAt(row, 0).toString()
             ));
 
@@ -246,9 +237,7 @@ updateButton.addActionListener(e -> {
 private void loadTable() {
     String query =
         "SELECT PRODUCT_ID, PRODUCT_NAME, SUPPLIER, " +
-        "PURCHASE_PRICE, SELLING_PRICE, QUANTITY, " +
-        "(PURCHASE_PRICE * QUANTITY) AS TOTAL_COST " +
-        "FROM product";
+        "PURCHASE_PRICE, SELLING_PRICE "+"FROM product";
 
     try {
         Class.forName("com.mysql.cj.jdbc.Driver");
@@ -263,8 +252,7 @@ private void loadTable() {
 
             String[] columns = {
                 "PRODUCT_ID", "PRODUCT_NAME", "SUPPLIER",
-                "PURCHASE_PRICE", "SELLING_PRICE",
-                "QUANTITY", "TOTAL_COST"
+                "PURCHASE_PRICE", "SELLING_PRICE"
             };
 
             for (String column : columns) {
@@ -272,9 +260,9 @@ private void loadTable() {
             }
 
             while (rs.next()) {
-                Object[] row = new Object[7];
+                Object[] row = new Object[5];
 
-                for (int i = 1; i <= 7; i++) {
+                for (int i = 1; i <= 5; i++) {
                     row[i - 1] = rs.getObject(i);
                 }
 

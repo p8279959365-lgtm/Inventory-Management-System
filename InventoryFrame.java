@@ -1075,6 +1075,34 @@ public class InventoryFrame extends JFrame {
                     ps.setInt(6, quantity);
                     ps.setInt(7, total);
                     ps.executeUpdate();
+
+
+                    PreparedStatement stmtpre=con.prepareStatement("select * from product where PRODUCT_ID=?");;
+                stmtpre.setInt(1,productId);
+                ResultSet result=stmtpre.executeQuery();
+                if(result.next())
+                {                   
+                    String sql2=" INSERT INTO product VALUES(?,?,?,?,?)";
+                    PreparedStatement st=con.prepareStatement(sql2);
+                    st.setString(2, productName);
+                    st.setInt(1, productId);
+                    st.setString(3, supplier);
+                    st.setInt(4, purchasePrice);
+                    st.setInt(5, sellingPrice);
+                    ResultSet ress=st.executeQuery();
+                    if(ress.next())
+                    {
+                        JOptionPane.showMessageDialog(body,"PRODUCT WAS ADDED ");
+                    }
+                    else{
+
+                        JOptionPane.showMessageDialog(body,"THE PRODUCT WAS NOT ADDED");
+
+                    }
+                }
+                else{
+                    JOptionPane.showMessageDialog(body,"the product cannot be added in product");
+                }
                 }
             }
             
@@ -1128,31 +1156,6 @@ public class InventoryFrame extends JFrame {
                     refreshInventoryCost();
                 } else {
                     JOptionPane.showMessageDialog(this, "No matching product was found.");
-                }
-
-
-                PreparedStatement stmtpre=con.prepareStatement("select * from product where PRODUCT_ID=?");;
-                stmtpre.setInt(1,newProductId);
-                ResultSet result=stmtpre.executeQuery();
-                if(result.next())
-                {                   
-                    String sql2=" INSERT INTO product VALUES(?,?,?,?,?)";
-                    PreparedStatement st=con.prepareStatement(sql2);
-                    st.setString(1, productName);
-                    st.setInt(2, newProductId);
-                    st.setString(3, supplier);
-                    st.setInt(4, purchasePrice);
-                    st.setInt(5, sellingPrice);
-                    ResultSet ress=st.executeQuery();
-                    if(ress.next())
-                    {
-                        JOptionPane.showMessageDialog(body,"PRODUCT WAS ADDED ");
-                    }
-                    else{
-
-                        JOptionPane.showMessageDialog(body,"THE PRODUCT WAS NOT ADDED");
-
-                    }
                 }
             }
         } catch (NumberFormatException ex) {
