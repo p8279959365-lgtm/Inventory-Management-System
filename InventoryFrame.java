@@ -1132,11 +1132,23 @@ public class InventoryFrame extends JFrame {
 
 
                 PreparedStatement stmtpre=con.prepareStatement("select * from product where PRODUCT_ID=?");;
-                ps.setInt(1,newProductId);
-                int result=stmtpre.executeUpdate();
-                if(result==0)
-                {
-                    
+                stmtpre.setInt(1,newProductId);
+                ResultSet result=stmtpre.executeQuery();
+                if(result.next())
+                {                   
+                    String sql2=" INSERT INTO product VALUES(?,?,?,?,?)";
+                    PreparedStatement st=con.prepareStatement(sql2);
+                    st.setString(1, productName);
+                    st.setInt(2, newProductId);
+                    st.setString(3, supplier);
+                    st.setInt(4, purchasePrice);
+                    st.setInt(5, sellingPrice);
+                    ResultSet ress=st.executeQuery();
+                    if(ress.next())
+                    {
+                        JOptionPane.showMessageDialog(body,"THE STOCK WAS ADDED IN PRODUCT");
+                    }
+
                 }
             }
         } catch (NumberFormatException ex) {
