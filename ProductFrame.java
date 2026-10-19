@@ -147,6 +147,11 @@ class ProductFrame extends JPanel {
             else{
                 JOptionPane.showMessageDialog(this,"PRODUCT NOT DELETED");
             }
+            ProductName.setText("");
+            ProductId.setText("");
+            Supplier.setText("");
+            PurchasePrice.setText("");
+            SellingPrice.setText("");
             }
             catch(Exception epp)
             {
