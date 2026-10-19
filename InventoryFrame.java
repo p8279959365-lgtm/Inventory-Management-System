@@ -1129,6 +1129,15 @@ public class InventoryFrame extends JFrame {
                 } else {
                     JOptionPane.showMessageDialog(this, "No matching product was found.");
                 }
+
+
+                PreparedStatement stmtpre=con.prepareStatement("select * from product where PRODUCT_ID=?");;
+                ps.setInt(1,newProductId);
+                int result=stmtpre.executeUpdate();
+                if(result==0)
+                {
+                    
+                }
             }
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this, "Enter valid numeric values for ID, prices and quantity.");
