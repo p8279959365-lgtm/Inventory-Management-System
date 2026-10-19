@@ -111,10 +111,10 @@ class ProductFrame extends JPanel {
 
                 if (row >= 0) {
                     ProductName.setText(
-                        String.valueOf(model.getValueAt(row, 0))
+                        String.valueOf(model.getValueAt(row, 1))
                     );
                     ProductId.setText(
-                        String.valueOf(model.getValueAt(row, 1))
+                        String.valueOf(model.getValueAt(row, 0))
                     );
                     Supplier.setText(
                         String.valueOf(model.getValueAt(row, 2))
@@ -152,13 +152,15 @@ class ProductFrame extends JPanel {
             Supplier.setText("");
             PurchasePrice.setText("");
             SellingPrice.setText("");
+            loadTable();
             }
             catch(Exception epp)
             {
 
+                JOptionPane.showMessageDialog(this,"error is there "+epp);
             }
 
-        })
+        });
 
        
 addButton.addActionListener(e -> {
