@@ -1146,9 +1146,13 @@ public class InventoryFrame extends JFrame {
                     ResultSet ress=st.executeQuery();
                     if(ress.next())
                     {
-                        JOptionPane.showMessageDialog(body,"THE STOCK WAS ADDED IN PRODUCT");
+                        JOptionPane.showMessageDialog(body,"PRODUCT WAS ADDED ");
                     }
+                    else{
 
+                        JOptionPane.showMessageDialog(body,"THE PRODUCT WAS NOT ADDED");
+
+                    }
                 }
             }
         } catch (NumberFormatException ex) {
