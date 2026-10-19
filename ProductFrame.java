@@ -129,6 +129,32 @@ class ProductFrame extends JPanel {
             }
         });
 
+
+        deleteButton.addActionListener(e ->{
+            try{
+            String sqldelete="delete from product where PRODUCT_ID= ?";
+            Connection conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/Inventory","root","Vikram@300978");
+
+            int id_to_be_deleted=Integer.parseInt(ProductId.getText());
+
+            PreparedStatement stmtt=conn.prepareStatement(sqldelete);
+            stmtt.setInt(1,id_to_be_deleted);
+            int r=stmtt.executeUpdate();
+            if(r>0)
+            {
+                JOptionPane.showMessageDialog(this,"PRODUCT DELETED");
+            }
+            else{
+                JOptionPane.showMessageDialog(this,"PRODUCT NOT DELETED");
+            }
+            }
+            catch(Exception epp)
+            {
+
+            }
+
+        })
+
        
 addButton.addActionListener(e -> {
     try {
