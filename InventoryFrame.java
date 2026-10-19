@@ -1076,11 +1076,12 @@ public class InventoryFrame extends JFrame {
                     ps.setInt(7, total);
                     ps.executeUpdate();
 
-
+/// YEH ADD KIYA HAI 
+/// 
                     PreparedStatement stmtpre=con.prepareStatement("select * from product where PRODUCT_ID=?");;
                 stmtpre.setInt(1,productId);
                 ResultSet result=stmtpre.executeQuery();
-                if(result.next())
+                if(!result.next())
                 {                   
                     String sql2=" INSERT INTO product VALUES(?,?,?,?,?)";
                     PreparedStatement st=con.prepareStatement(sql2);
@@ -1089,8 +1090,8 @@ public class InventoryFrame extends JFrame {
                     st.setString(3, supplier);
                     st.setInt(4, purchasePrice);
                     st.setInt(5, sellingPrice);
-                    ResultSet ress=st.executeQuery();
-                    if(ress.next())
+                    int ress=st.executeUpdate();
+                    if(ress>0)
                     {
                         JOptionPane.showMessageDialog(body,"PRODUCT WAS ADDED ");
                     }
@@ -1103,6 +1104,7 @@ public class InventoryFrame extends JFrame {
                 else{
                     JOptionPane.showMessageDialog(body,"the product cannot be added in product");
                 }
+                // YAHA TAK
                 }
             }
             
@@ -1110,7 +1112,6 @@ public class InventoryFrame extends JFrame {
             clearStockFields();
             loadStockTable();
             refreshInventoryCost();
-
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this,
                 "Product ID, prices and quantity must be valid integers.");
