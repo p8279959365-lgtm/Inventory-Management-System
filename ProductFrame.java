@@ -89,17 +89,17 @@ class ProductFrame extends JPanel {
 
 
         JButton addButton = new JButton("ADD PRODUCT");
-        addButton.setBounds(15, 465, 210, 30);
+        addButton.setBounds(15, 430, 210, 30);
         rightSidebar.add(addButton);
 
 
 
         JButton updateButton = new JButton("UPDATE PRODUCT");
-        updateButton.setBounds(15, 500, 210, 30);
+        updateButton.setBounds(15, 465, 210, 30);
         rightSidebar.add(updateButton);
 
         JButton deleteButton=new JButton("DELETE PRODUCT");
-        deleteButton.setBounds(15,535,210,30);
+        deleteButton.setBounds(15,500,210,30);
         rightSidebar.add(deleteButton);
         // Load table when the screen opens
         loadTable();
