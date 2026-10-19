@@ -1077,7 +1077,7 @@ public class InventoryFrame extends JFrame {
                     ps.executeUpdate();
                 }
             }
-
+            
             JOptionPane.showMessageDialog(this, "Stock added successfully.");
             clearStockFields();
             loadStockTable();
@@ -1148,7 +1148,7 @@ public class InventoryFrame extends JFrame {
             int productId = Integer.parseInt(idText);
             try (Connection con = getConnection();
                  PreparedStatement ps = con.prepareStatement(
-                     "DELETE FROM stock WHERE product_id = ?")) {
+                     "DELETE FROM stock WHERE product_id = ? ")) {
                 ps.setInt(1, productId);
                 int deleted = ps.executeUpdate();
 
