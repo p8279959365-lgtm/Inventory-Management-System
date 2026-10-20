@@ -874,7 +874,21 @@ public class InventoryFrame extends JFrame {
         purchaseButton.addActionListener(e -> showNotImplemented("Purchase"));
         customerButton.addActionListener(e -> showNotImplemented("Customer"));
         suppliersButton.addActionListener(e -> showNotImplemented("Suppliers"));
-        billingButton.addActionListener(e -> showNotImplemented("Billing"));
+        billingButton.addActionListener(e -> showBillingScreen());
+    }
+
+    private void showBillingScreen()
+    {
+
+        body.removeAll();
+        rightSideBar.setVisible(false);
+        lowerBar.setVisible(false);
+
+        BillingFrame obj=new BillingFrame();
+        obj.setBounds(0,0,body.getWidth(), body.getHeight());
+        body.add(obj);
+        body.revalidate();
+        body.repaint();
     }
 
     private void showProductScreen() {
