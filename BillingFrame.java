@@ -168,5 +168,31 @@ card2.add(addproduct);
 
 
 add(card2);
+
+
+
+
+// new card for add products 
+
+
+JPanel card3=new JPanel();
+card3.setLayout(null);
+card3.setBounds(20,360,800,450);
+card3.setBackground(Color.white);
+
+JLabel heading3 = new JLabel("Bill Items");
+heading3.setFont(new Font("Arial", Font.BOLD, 18));
+heading3.setBounds(15, 20, 250, 30);
+card3.add(heading3);
+
+// now will be loading the table we have to create it 
+
+
+
+
+
+
+
+add(card3);
 }
 }
