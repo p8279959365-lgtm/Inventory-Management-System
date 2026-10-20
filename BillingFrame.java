@@ -12,7 +12,12 @@ setBackground(new Color(241,245,249));
 JPanel card1 = new JPanel();
 card1.setLayout(null);
 
-card1.setBounds(20, 50, 1300, 160);
+
+
+
+
+// CARD1 BOUND 
+card1.setBounds(20, 50, 800, 140);
 card1.setBackground(Color.WHITE);
 
 card1.setBorder(
@@ -27,32 +32,49 @@ heading.setFont(new Font("Arial", Font.BOLD, 18));
 heading.setBounds(15, 10, 250, 30);
 card1.add(heading);
 
-// Customer Name
-JLabel idLabel = new JLabel("Customer Name");
+// Customer ID
+JLabel idLabel = new JLabel("Customer Id");
 idLabel.setBounds(15, 50, 150, 25);
 card1.add(idLabel);
 
 JTextField idField = new JTextField();
-idField.setBounds(15, 80, 50, 30);
+idField.setBounds(15, 80, 70, 30);
 card1.add(idField);
 
-// Phone Number
+// customer name
+JLabel nameLabel = new JLabel("Customer Name");
+nameLabel.setBounds(120, 50, 150, 25);
+card1.add(nameLabel);
+
+JTextField namefield = new JTextField();
+namefield.setBounds(120, 80, 150, 30);
+card1.add(namefield);
+
+// CUSTOMER PHONE NUMBER PRIMARY KEY
 JLabel phoneLabel = new JLabel("Phone Number");
-phoneLabel.setBounds(300, 50, 150, 25);
+phoneLabel.setBounds(290, 50, 150, 25);
 card1.add(phoneLabel);
 
 JTextField phoneField = new JTextField();
-phoneField.setBounds(300, 80, 250, 30);
+phoneField.setBounds(290, 80, 150, 30);
 card1.add(phoneField);
 
 
-// JLabel nameLabel = new JLabel("Customer Name");
-// nameLabel.setBounds(15, 50, 150, 25);
-// card1.add(nameLabel);
+// CUSTOMER EMAIL
+JLabel emailLabel = new JLabel("Email ");
+emailLabel.setBounds(450, 50, 150, 25);
+card1.add(emailLabel);
 
-// JTextField nameField = new JTextField();
-// nameField.setBounds(15, 80, 250, 30);
-// card1.add(nameField);
+JTextField emailField = new JTextField();
+emailField.setBounds(450, 80, 150, 30);
+card1.add(emailField);
+
+// ADDING THE ADDNEW CUSTOMER BUTTON
+JButton addcustomer=new JButton("Add Customer");
+addcustomer.setBounds(620,80,130,30);
+card1.add(addcustomer);
+
+
 
 add(card1);
         
