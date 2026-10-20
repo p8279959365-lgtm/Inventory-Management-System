@@ -77,6 +77,96 @@ card1.add(addcustomer);
 
 
 add(card1);
-        
-    }
+
+
+
+
+
+
+
+// NOW WE ARE ADDING THE PRODUCT ADDING CARD
+
+JPanel card2=new JPanel();
+card2.setBounds(20,200,800,140);
+card2.setLayout(null);
+card2.setBackground(Color.white);
+
+
+
+JLabel heading2 = new JLabel("Product Details");
+heading2.setFont(new Font("Arial", Font.BOLD, 18));
+heading2.setBounds(15, 10, 250, 30);
+card2.add(heading2);
+
+// added the product id
+JLabel productid=new JLabel("Product Id");
+productid.setBounds(15,40,100,30);
+card2.add(productid);
+
+JTextField productfield=new JTextField();
+productfield.setBounds(15,70,70,30);
+card2.add(productfield);
+
+
+
+// adding the product name
+JLabel productname=new JLabel("Product Name");
+productname.setBounds(115,40,100,30);
+card2.add(productname);
+
+JTextField productnamefield=new JTextField();
+productnamefield.setBounds(115,70,130,30);
+card2.add(productnamefield);
+
+// adding the Available stock
+JLabel availablestockLabel=new JLabel("Available Stock");
+availablestockLabel.setBounds(265,40,100,30);
+card2.add(availablestockLabel);
+
+JTextField availablestockfield=new JTextField();
+availablestockfield.setBounds(265,70,100,30);
+card2.add(availablestockfield);
+
+
+// selling price lable
+JLabel sellingpriceLabel=new JLabel("Selling Price");
+sellingpriceLabel.setBounds(380,40,100,30);
+card2.add(sellingpriceLabel);
+
+JTextField sellingpricefield=new JTextField();
+sellingpricefield.setBounds(380,70,100,30);
+card2.add(sellingpricefield);
+
+// total cost label
+JLabel quantity=new JLabel("Quantity");
+quantity.setBounds(490,40,100,30);
+card2.add(quantity);
+
+
+JTextField quantityfield=new JTextField();
+quantityfield.setBounds(490,70,50,30);
+card2.add(quantityfield);
+
+
+
+// total cost label
+JLabel totalcost=new JLabel("Total Cost");
+totalcost.setBounds(555,40,100,30);
+card2.add(totalcost);
+
+
+JTextField totalcostfield=new JTextField();
+totalcostfield.setBounds(555,70,100,30);
+card2.add(totalcostfield);
+
+
+// adding button to add the product
+JButton addproduct=new JButton("Add Product");
+addproduct.setBounds(665,70,130,30);
+card2.add(addproduct);
+
+
+
+add(card2);
+}
 }
