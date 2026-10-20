@@ -883,7 +883,7 @@ public class InventoryFrame extends JFrame {
         body.removeAll();
         rightSideBar.setVisible(false);
         lowerBar.setVisible(false);
-         body.setBounds(205, 50, 1500, 700);
+        body.setBounds(205, 50, 1500, 700);
         BillingFrame obj=new BillingFrame();
         obj.setBounds(0,0,body.getWidth(), body.getHeight());
         body.add(obj);
@@ -911,6 +911,7 @@ public class InventoryFrame extends JFrame {
         rightSideBar.removeAll();
         lowerBar.removeAll();
 
+        body.setBounds(205, 50, 980, 700);
         rightSideBar.setVisible(true);
         lowerBar.setVisible(true);
 
