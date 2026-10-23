@@ -579,7 +579,146 @@ sellingPriceField.getDocument().addDocumentListener(listener);
                 "Customer database integration is pending."
             )
         );
+
+        // adding the new card for showing the bill summary  the fields of discount, discount amt, tax, tax amt  then the grand total 
+
+
+        JPanel billSummary=new JPanel();
+        billSummary.setBounds(830,50,500,1000);
+        billSummary.setLayout(null);
+        add(billSummary);
+        billSummary.setBackground(Color.WHITE);
+
+        JLabel billsummary=new JLabel("BILL SUMMARY");
+        billsummary.setBounds(20,10,200,50);
+        billsummary.setFont(new Font("Arial", Font.BOLD, 18));
+        billSummary.add(billsummary);
+
+
+        JLabel subtotal=new JLabel("Sub Total (₹) :");
+        subtotal.setBounds(20,80,100,20);
+        subtotal.setFont(new Font("Arial",Font.BOLD, 14));
+        billSummary.add(subtotal);
+
+        JTextField subtotalField=new JTextField();
+        subtotalField.setBounds(130,80,200,30);
+        billSummary.add(subtotalField);
+
+        JLabel discount=new JLabel("Discount %  :");
+        discount.setBounds(20,120,100,20);
+        discount.setFont(new Font("Arial",Font.BOLD,14));
+        billSummary.add(discount);
+
+        JTextField discountField=new JTextField();
+        discountField.setBounds(130,120,200,30);
+        billSummary.add(discountField);
+
+        JLabel damt=new JLabel("Amount:");
+        damt.setBounds(340,120,100,30);
+        damt.setFont(new Font("Arial",Font.BOLD,14));
+        billSummary.add(damt);
+
+        JTextField discountamt=new JTextField();
+        discountamt.setBounds(410,120,80,30);
+        billSummary.add(discountamt);
+
+
+        // ADDED THE TAX FIELD
+
+
+        JLabel tax=new JLabel("Tax %           :");
+        tax.setBounds(20,160,100,20);
+        tax.setFont(new Font("Arial",Font.BOLD,14));
+        billSummary.add(tax);
+
+        JTextField taxField=new JTextField();
+        taxField.setBounds(130,160,200,30);
+        billSummary.add(taxField);
+
+        // GET THE TAX % FROM Taxfield and fill it in the taxamt
+
+         JLabel tamt=new JLabel("Amount:");
+        tamt.setBounds(340,160,100,30);
+        tamt.setFont(new Font("Arial",Font.BOLD,14));
+        billSummary.add(tamt);
+
+        JTextField taxamt=new JTextField();
+        taxamt.setBounds(410,160,80,30);
+        billSummary.add(taxamt);
+
+
+
+        // for the total amt;
+
+
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
    private void calculateItemTotal() {
     try {
