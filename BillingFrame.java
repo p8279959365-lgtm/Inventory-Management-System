@@ -344,18 +344,18 @@ class BillingFrame extends JPanel {
         card2.add(sellingPriceField);
 
         JLabel quantityLabel = new JLabel("Quantity");
-        quantityLabel.setBounds(460, 40, 80, 25);
+        quantityLabel.setBounds(480, 40, 80, 25);
         card2.add(quantityLabel);
 
         quantityField = new JTextField();
-        quantityField.setBounds(460, 70, 65, 30);
+        quantityField.setBounds(480, 70, 45, 30);
         card2.add(quantityField);
 
-        JButton minusButton = new JButton("-");
-JButton plusButton = new JButton("+");
+        JButton minusButton = new JButton("");
+JButton plusButton = new JButton("");
 
-minusButton.setBounds(430, 80, 40, 30);
-plusButton.setBounds(570, 80, 40, 30);
+minusButton.setBounds(470, 70, 10, 30);
+plusButton.setBounds(524, 70, 10, 30);
 card2.add(minusButton);
 card2.add(plusButton);
 
@@ -387,11 +387,11 @@ plusButton.addActionListener(e -> {
 });
 
         JLabel totalLabel = new JLabel("Total Cost");
-        totalLabel.setBounds(535, 40, 90, 25);
+        totalLabel.setBounds(560, 40, 90, 25);
         card2.add(totalLabel);
 
         totalCostField = new JTextField();
-        totalCostField.setBounds(535, 70, 100, 30);
+        totalCostField.setBounds(560, 70, 60, 30);
         totalCostField.setEditable(true);
         card2.add(totalCostField);
 
