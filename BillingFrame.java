@@ -664,6 +664,19 @@ sellingPriceField.getDocument().addDocumentListener(listener);
         tcpanel.add(payableamt);
 
 
+        //now we will be adding the generate bill button
+
+        JButton generateBillButton=new JButton("Generate Bill");
+         generateBillButton.setBounds(50,280,400,40);
+        // generatebill.setBackground(Color.RED);
+        // billSummary.add(generatebill);
+        generateBillButton.setBackground(new Color(220, 38, 38));
+        generateBillButton.setForeground(Color.WHITE);
+        generateBillButton.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        generateBillButton.setFocusPainted(false);
+        generateBillButton.setBorderPainted(false);
+        generateBillButton.setOpaque(true);
+        billSummary.add(generateBillButton);
 
         
 
