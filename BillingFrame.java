@@ -202,18 +202,6 @@
 
 // card3.add(scrollPane);
 
-
-
-
-
-
-
-
-
-
-
-
-
 // add(card3);
 // }
 // }
@@ -221,6 +209,22 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+// whats app pe pdf abhi bacha hai baad mei krte hai use 
+// import org.apache.pdfbox.pdmodel.PDDocument;
+// import org.apache.pdfbox.pdmodel.PDPage;
+// import org.apache.pdfbox.pdmodel.PDPageContentStream;
+// import org.apache.pdfbox.pdmodel.font.PDType1Font;
+// import org.apache.pdfbox.pdmodel.font.Standard14Fonts;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -693,10 +697,8 @@ sellingPriceField.getDocument().addDocumentListener(listener);
         downloadButton.setOpaque(true);
         downloadButton.setBorderPainted(false);
         billSummary.add(downloadButton);
-
-
-
-
+        
+        downloadButton.addActionListener(e -> generateBill());
 
 
 
@@ -943,7 +945,28 @@ private void showBillScreen(String billText) {
     printButton.setBorderPainted(false);
 
     JButton closeButton = new JButton("Close");
+    JButton downloadButton = new JButton("Download Bill");
+    downloadButton.setFont(new Font("Segoe UI", Font.BOLD, 14));
+    downloadButton.setBackground(new Color(22, 163, 74));
+    downloadButton.setForeground(Color.WHITE);
+    downloadButton.setFocusPainted(false);
+    downloadButton.setOpaque(true);
+    downloadButton.setBorderPainted(false);
     closeButton.setFont(new Font("Segoe UI", Font.BOLD, 14));
+
+    JButton whatsappButton = new JButton("Share on WhatsApp");
+JButton emailButton = new JButton("Share via Email");
+
+whatsappButton.setFont(
+    new Font("Segoe UI", Font.BOLD, 14)
+);
+whatsappButton.setBackground(new Color(22, 163, 74));
+whatsappButton.setForeground(Color.WHITE);
+whatsappButton.setFocusPainted(false);
+
+emailButton.setFont(
+    new Font("Segoe UI", Font.BOLD, 14)
+);
 
     printButton.addActionListener(e -> {
         try {
@@ -957,9 +980,104 @@ private void showBillScreen(String billText) {
     });
 
     closeButton.addActionListener(e -> billFrame.dispose());
+    downloadButton.addActionListener(e -> {
+    JFileChooser chooser = new JFileChooser();
+    chooser.setDialogTitle("Download Bill");
+    chooser.setSelectedFile(
+        new java.io.File("Customer_Bill.txt")
+    );
 
-    buttonPanel.add(printButton);
-    buttonPanel.add(closeButton);
+
+
+
+    whatsappButton.addActionListener(epp -> {
+
+    String phone = phoneField.getText().trim();
+
+    if (phone.isEmpty()) {
+        JOptionPane.showMessageDialog(
+            billFrame,
+            "Please enter customer phone number."
+        );
+        return;
+    }
+
+    phone = phone.replaceAll("[^0-9]", "");
+
+    if (phone.length() == 10) {
+        phone = "91" + phone;
+    }
+
+    try {
+        String message = java.net.URLEncoder.encode(
+            billText,
+            java.nio.charset.StandardCharsets.UTF_8
+        );
+
+        String url = "https://wa.me/" + phone + "?text=" + message;
+
+        java.awt.Desktop.getDesktop().browse(
+            new java.net.URI(url)
+        );
+
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(
+            billFrame,
+            "Unable to open WhatsApp: " + ex.getMessage()
+        );
+    }
+});
+    int result = chooser.showSaveDialog(billFrame);
+
+    if (result == JFileChooser.APPROVE_OPTION) {
+        java.io.File file = chooser.getSelectedFile();
+
+        if (!file.getName().toLowerCase().endsWith(".txt")) {
+            file = new java.io.File(
+                file.getAbsolutePath() + ".txt"
+            );
+        }
+
+        if (file.exists()) {
+            int choice = JOptionPane.showConfirmDialog(
+                billFrame,
+                "File already exists. Replace it?",
+                "Confirm Save",
+                JOptionPane.YES_NO_OPTION
+            );
+
+            if (choice != JOptionPane.YES_OPTION) {
+                return;
+            }
+        }
+
+        try (java.io.BufferedWriter writer =
+                 new java.io.BufferedWriter(
+                     new java.io.FileWriter(file))) {
+
+            writer.write(billText);
+
+            JOptionPane.showMessageDialog(
+                billFrame,
+                "Bill downloaded successfully!\n" +
+                file.getAbsolutePath()
+            );
+
+        } catch (java.io.IOException ex) {
+            JOptionPane.showMessageDialog(
+                billFrame,
+                "Error saving bill: " + ex.getMessage()
+            );
+        }
+    }
+});
+
+
+buttonPanel.add(downloadButton);
+buttonPanel.add(whatsappButton);
+buttonPanel.add(emailButton);
+buttonPanel.add(printButton);
+buttonPanel.add(closeButton);
 
     billFrame.add(header, BorderLayout.NORTH);
     billFrame.add(scrollPane, BorderLayout.CENTER);
@@ -967,5 +1085,6 @@ private void showBillScreen(String billText) {
 
     billFrame.setVisible(true);
 }
+
 
 }
