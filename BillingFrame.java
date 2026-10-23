@@ -351,13 +351,48 @@ class BillingFrame extends JPanel {
         quantityField.setBounds(460, 70, 65, 30);
         card2.add(quantityField);
 
+        JButton minusButton = new JButton("-");
+JButton plusButton = new JButton("+");
+
+minusButton.setBounds(430, 80, 40, 30);
+plusButton.setBounds(570, 80, 40, 30);
+card2.add(minusButton);
+card2.add(plusButton);
+
+minusButton.addActionListener(e -> {
+    try {
+        int quantity = Integer.parseInt(
+            quantityField.getText().trim()
+        );
+
+        if (quantity > 1) {
+            quantityField.setText(String.valueOf(quantity - 1));
+        }
+    } catch (NumberFormatException ex) {
+        quantityField.setText("1");
+    }
+});
+
+plusButton.addActionListener(e -> {
+    try {
+        int quantity = Integer.parseInt(
+            quantityField.getText().trim()
+        );
+
+        quantityField.setText(String.valueOf(quantity + 1));
+
+    } catch (NumberFormatException ex) {
+        quantityField.setText("1");
+    }
+});
+
         JLabel totalLabel = new JLabel("Total Cost");
         totalLabel.setBounds(535, 40, 90, 25);
         card2.add(totalLabel);
 
         totalCostField = new JTextField();
         totalCostField.setBounds(535, 70, 100, 30);
-        totalCostField.setEditable(false);
+        totalCostField.setEditable(true);
         card2.add(totalCostField);
 
         JButton addProductButton = new JButton("Add Product");
@@ -529,27 +564,27 @@ class BillingFrame extends JPanel {
         );
     }
 
-    private void calculateItemTotal() {
+   private void calculateItemTotal() {
+    try {
+        double price = Double.parseDouble(
+            sellingPriceField.getText().trim()
+        );
 
-        try {
-            double price = Double.parseDouble(
-                sellingPriceField.getText().trim()
-            );
+        int quantity = Integer.parseInt(
+            quantityField.getText().trim()
+        );
 
-            int quantity = Integer.parseInt(
-                quantityField.getText().trim()
-            );
-
-            if (price >= 0 && quantity > 0) {
-                totalCostField.setText(
-                    String.format("%.2f", price * quantity)
-                );
-            }
-
-        } catch (NumberFormatException ex) {
+        if (price >= 0 && quantity >= 0) {
+            double total = price * quantity;
+            totalCostField.setText(String.format("%.2f", total));
+        } else {
             totalCostField.setText("");
         }
+
+    } catch (NumberFormatException e) {
+        totalCostField.setText("");
     }
+}
 
     private void calculateGrandTotal(JLabel grandTotalLabel) {
 
