@@ -584,7 +584,7 @@ sellingPriceField.getDocument().addDocumentListener(listener);
 
 
         JPanel billSummary=new JPanel();
-        billSummary.setBounds(830,50,500,1000);
+        billSummary.setBounds(830,50,500,420);
         billSummary.setLayout(null);
         add(billSummary);
         billSummary.setBackground(Color.WHITE);
@@ -678,10 +678,21 @@ sellingPriceField.getDocument().addDocumentListener(listener);
         generateBillButton.setOpaque(true);
         billSummary.add(generateBillButton);
 
+
+        // adding the function for generating the bill
+
+        generateBillButton.addActionListener(e -> generateBill());
         
 
-        
-
+        JButton downloadButton = new JButton("Download Bill");
+        downloadButton.setBounds(50,340,400,40);
+        downloadButton.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        downloadButton.setBackground(new Color(22, 163, 74));
+        downloadButton.setForeground(Color.WHITE);
+        downloadButton.setFocusPainted(false);
+        downloadButton.setOpaque(true);
+        downloadButton.setBorderPainted(false);
+        billSummary.add(downloadButton);
 
 
 
@@ -789,4 +800,172 @@ sellingPriceField.getDocument().addDocumentListener(listener);
             String.format("Rs. %.2f", grandTotal)
         );
     }
+    private void generateBill() {
+
+    if (model.getRowCount() == 0) {
+        JOptionPane.showMessageDialog(
+            this,
+            "Please add products before generating the bill."
+        );
+        return;
+    }
+
+    if (nameField.getText().trim().isEmpty()) {
+        JOptionPane.showMessageDialog(
+            this,
+            "Please enter customer name."
+        );
+        return;
+    }
+
+    StringBuilder bill = new StringBuilder();
+
+    bill.append("       INVENTORY MANAGEMENT SYSTEM\n");
+    bill.append("----------------------------------------\n");
+    bill.append("                 CUSTOMER BILL\n");
+    bill.append("----------------------------------------\n");
+    bill.append("Customer Name: ")
+        .append(nameField.getText()).append("\n");
+    bill.append("Phone: ")
+        .append(phoneField.getText()).append("\n");
+    bill.append("----------------------------------------\n");
+
+    double grandTotal = 0;
+
+    for (int i = 0; i < model.getRowCount(); i++) {
+
+        String productName =
+            model.getValueAt(i, 1).toString();
+
+        double price = Double.parseDouble(
+            model.getValueAt(i, 2).toString()
+        );
+
+        int quantity = Integer.parseInt(
+            model.getValueAt(i, 3).toString()
+        );
+
+        double total = Double.parseDouble(
+            model.getValueAt(i, 4).toString()
+        );
+
+        bill.append(productName)
+            .append(" | ₹").append(String.format("%.2f", price))
+            .append(" x ").append(quantity)
+            .append(" = ₹").append(String.format("%.2f", total))
+            .append("\n");
+
+        grandTotal += total;
+    }
+
+    bill.append("----------------------------------------\n");
+    bill.append("GRAND TOTAL: ₹")
+        .append(String.format("%.2f", grandTotal))
+        .append("\n");
+    bill.append("----------------------------------------\n");
+    bill.append("         Thank you for shopping!");
+
+    JTextArea billArea = new JTextArea(bill.toString());
+    billArea.setFont(new Font("Monospaced", Font.PLAIN, 13));
+    billArea.setEditable(false);
+
+    int choice = JOptionPane.showConfirmDialog(
+        this,
+        new JScrollPane(billArea),
+        "Generated Bill",
+        JOptionPane.OK_CANCEL_OPTION,
+        JOptionPane.PLAIN_MESSAGE
+    );
+
+    showBillScreen(bill.toString());
+}
+
+private void showBillScreen(String billText) {
+
+    JFrame billFrame = new JFrame("Generated Bill");
+    billFrame.setSize(650, 720);
+    billFrame.setLocationRelativeTo(this);
+    billFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    billFrame.setLayout(new BorderLayout(15, 15));
+    billFrame.getContentPane().setBackground(
+        new Color(241, 245, 249)
+    );
+
+    // Header
+    JPanel header = new JPanel(new GridLayout(2, 1));
+    header.setBackground(new Color(153, 27, 27));
+    header.setBorder(
+        BorderFactory.createEmptyBorder(15, 20, 15, 20)
+    );
+
+    JLabel title = new JLabel(
+        "INVENTORY MANAGEMENT SYSTEM",
+        SwingConstants.CENTER
+    );
+    title.setFont(new Font("Segoe UI", Font.BOLD, 22));
+    title.setForeground(Color.WHITE);
+
+    JLabel subtitle = new JLabel(
+        "CUSTOMER INVOICE",
+        SwingConstants.CENTER
+    );
+    subtitle.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+    subtitle.setForeground(Color.WHITE);
+
+    header.add(title);
+    header.add(subtitle);
+
+    // Receipt area
+    JTextArea receipt = new JTextArea(billText);
+    receipt.setFont(new Font("Monospaced", Font.PLAIN, 14));
+    receipt.setEditable(false);
+    receipt.setBackground(Color.WHITE);
+    receipt.setMargin(new Insets(20, 20, 20, 20));
+    receipt.setLineWrap(false);
+
+    JScrollPane scrollPane = new JScrollPane(receipt);
+    scrollPane.setBorder(
+        BorderFactory.createEmptyBorder(15, 20, 5, 20)
+    );
+
+    // Buttons
+    JPanel buttonPanel = new JPanel(
+        new FlowLayout(FlowLayout.CENTER, 20, 15)
+    );
+    buttonPanel.setBackground(new Color(241, 245, 249));
+
+    JButton printButton = new JButton("Print Bill");
+    printButton.setFont(new Font("Segoe UI", Font.BOLD, 14));
+    printButton.setBackground(new Color(220, 38, 38));
+    printButton.setForeground(Color.WHITE);
+    printButton.setFocusPainted(false);
+    printButton.setOpaque(true);
+    printButton.setBorderPainted(false);
+
+    JButton closeButton = new JButton("Close");
+    closeButton.setFont(new Font("Segoe UI", Font.BOLD, 14));
+
+    printButton.addActionListener(e -> {
+        try {
+            receipt.print();
+        } catch (java.awt.print.PrinterException ex) {
+            JOptionPane.showMessageDialog(
+                billFrame,
+                "Printing failed: " + ex.getMessage()
+            );
+        }
+    });
+
+    closeButton.addActionListener(e -> billFrame.dispose());
+
+    buttonPanel.add(printButton);
+    buttonPanel.add(closeButton);
+
+    billFrame.add(header, BorderLayout.NORTH);
+    billFrame.add(scrollPane, BorderLayout.CENTER);
+    billFrame.add(buttonPanel, BorderLayout.SOUTH);
+
+    billFrame.setVisible(true);
+}
+
 }
