@@ -457,10 +457,27 @@ plusButton.addActionListener(e -> {
 
         add(card3);
 
-        // Calculate total when quantity or price changes
-        quantityField.addActionListener(e -> calculateItemTotal());
-        sellingPriceField.addActionListener(e -> calculateItemTotal());
+        javax.swing.event.DocumentListener listener =
+    new javax.swing.event.DocumentListener() {
 
+        @Override
+        public void insertUpdate(javax.swing.event.DocumentEvent e) {
+            calculateItemTotal();
+        }
+
+        @Override
+        public void removeUpdate(javax.swing.event.DocumentEvent e) {
+            calculateItemTotal();
+        }
+
+        @Override
+        public void changedUpdate(javax.swing.event.DocumentEvent e) {
+            calculateItemTotal();
+        }
+    };
+
+quantityField.getDocument().addDocumentListener(listener);
+sellingPriceField.getDocument().addDocumentListener(listener);
         // Add product to bill
         addProductButton.addActionListener(e -> {
 
