@@ -651,8 +651,28 @@ sellingPriceField.getDocument().addDocumentListener(listener);
         // for the total amt;
 
 
+        JPanel tcpanel=new JPanel();
+        tcpanel.setBounds(50,220,400,40);
+        tcpanel.setBackground((new Color(252, 231, 243,225)));
+        tcpanel.setLayout(null);
+        billSummary.add(tcpanel);
+
+
+        JLabel payableamt=new JLabel("Payalble Amt :");
+        payableamt.setFont(new Font("Arial",Font.BOLD,18));
+        payableamt.setBounds(2,10,200,30);
+        tcpanel.add(payableamt);
+
+
 
         
+
+        
+
+
+
+
+
 
 
 
