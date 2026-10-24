@@ -745,7 +745,130 @@ add(recentBillsPanel);
 // Load previously saved bills
 loadRecentBills();
 
+
+JButton viewBillButton = new JButton("View Bill Details");
+viewBillButton.setFont(new Font("Segoe UI", Font.BOLD, 13));
+viewBillButton.setBackground(new Color(37, 99, 235));
+viewBillButton.setForeground(Color.WHITE);
+viewBillButton.setFocusPainted(false);
+viewBillButton.setBorderPainted(false);
+viewBillButton.setOpaque(true);
+
+JPanel historyButtonPanel = new JPanel(
+    new FlowLayout(FlowLayout.RIGHT)
+);
+historyButtonPanel.setBackground(Color.WHITE);
+historyButtonPanel.add(viewBillButton);
+
+recentBillsPanel.add(historyButtonPanel, BorderLayout.SOUTH);
+
+viewBillButton.addActionListener(e -> viewSelectedBillDetails());
+
     }
+
+
+
+
+
+
+
+    private void viewSelectedBillDetails() {
+    int selectedRow = recentBillsTable.getSelectedRow();
+
+    if (selectedRow == -1) {
+        JOptionPane.showMessageDialog(
+            this,
+            "Please select a bill from Recent Bills first."
+        );
+        return;
+    }
+
+    int billId = Integer.parseInt(
+        recentBillsModel.getValueAt(selectedRow, 0)
+            .toString().replace("B", "")
+    );
+
+    String sql = """
+        SELECT product_name, selling_price, quantity, total
+        FROM bill_items
+        WHERE bill_id = ?
+        """;
+
+    StringBuilder details = new StringBuilder();
+
+    details.append("BILL DETAILS\n");
+    details.append("------------------------------------------\n");
+    details.append("Bill No: B")
+           .append(String.format("%03d", billId))
+           .append("\n");
+
+    details.append("Customer: ")
+           .append(recentBillsModel.getValueAt(selectedRow, 1))
+           .append("\n");
+
+    details.append("Date: ")
+           .append(recentBillsModel.getValueAt(selectedRow, 2))
+           .append("\n\n");
+
+    details.append(String.format(
+        "%-18s %8s %5s %10s%n",
+        "Product", "Price", "Qty", "Total"
+    ));
+
+    details.append("------------------------------------------\n");
+
+    try (Connection conn = DriverManager.getConnection(
+            "jdbc:mysql://localhost:3306/Inventory",
+            "root",
+            "Vikram@300978");
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+        stmt.setInt(1, billId);
+
+        double grandTotal = 0;
+
+        try (ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                String productName = rs.getString("product_name");
+                double price = rs.getDouble("selling_price");
+                int quantity = rs.getInt("quantity");
+                double total = rs.getDouble("total");
+
+                details.append(String.format(
+                    "%-18s %8.2f %5d %10.2f%n",
+                    productName, price, quantity, total
+                ));
+
+                grandTotal += total;
+            }
+        }
+
+        details.append("------------------------------------------\n");
+        details.append(String.format(
+            "ITEMS TOTAL: Rs. %.2f", grandTotal
+        ));
+
+        JTextArea textArea = new JTextArea(details.toString());
+        textArea.setEditable(false);
+        textArea.setFont(new Font("Monospaced", Font.PLAIN, 13));
+
+        JOptionPane.showMessageDialog(
+            this,
+            new JScrollPane(textArea),
+            "Bill Details",
+            JOptionPane.INFORMATION_MESSAGE
+        );
+
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(
+            this,
+            "Could not load bill details: " + ex.getMessage(),
+            "Database Error",
+            JOptionPane.ERROR_MESSAGE
+        );
+    }
+}
+
 
 
 
@@ -783,6 +906,10 @@ private void loadRecentBills() {
             JOptionPane.ERROR_MESSAGE
         );
     }
+
+
+
+    
 }
 
 
