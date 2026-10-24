@@ -226,6 +226,12 @@
 // import org.apache.pdfbox.pdmodel.font.PDType1Font;
 // import org.apache.pdfbox.pdmodel.font.Standard14Fonts;
 import java.awt.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
@@ -245,6 +251,8 @@ class BillingFrame extends JPanel {
 
     private JTable billTable;
     private DefaultTableModel model;
+    private JTable recentBillsTable;
+    private DefaultTableModel recentBillsModel;
 
     public BillingFrame() {
 
@@ -699,29 +707,83 @@ sellingPriceField.getDocument().addDocumentListener(listener);
         billSummary.add(downloadButton);
         
         downloadButton.addActionListener(e -> generateBill());
+        // Recent Bills Card
+JPanel recentBillsPanel = new JPanel(new BorderLayout(5, 5));
+recentBillsPanel.setBounds(830, 480, 500, 240);
+recentBillsPanel.setBackground(Color.WHITE);
+recentBillsPanel.setBorder(
+    BorderFactory.createLineBorder(new Color(220, 226, 235))
+);
 
+JLabel recentBillsHeading = new JLabel("  Recent Bills");
+recentBillsHeading.setFont(new Font("Arial", Font.BOLD, 18));
+recentBillsPanel.add(recentBillsHeading, BorderLayout.NORTH);
 
+recentBillsModel = new DefaultTableModel(
+    new String[]{"Bill No", "Customer Name", "Date", "Total (₹)"}, 0
+) {
+    @Override
+    public boolean isCellEditable(int row, int column) {
+        return false;
+    }
+};
 
+recentBillsTable = new JTable(recentBillsModel);
+recentBillsTable.setRowHeight(25);
+recentBillsTable.setFont(new Font("Arial", Font.PLAIN, 12));
+recentBillsTable.getTableHeader().setFont(
+    new Font("Arial", Font.BOLD, 12)
+);
 
+recentBillsPanel.add(
+    new JScrollPane(recentBillsTable),
+    BorderLayout.CENTER
+);
 
+add(recentBillsPanel);
 
-
-
-
-
-
-
-
-
-
-
-
+// Load previously saved bills
+loadRecentBills();
 
     }
 
 
 
+private void loadRecentBills() {
+    recentBillsModel.setRowCount(0);
 
+    String sql = """
+        SELECT bill_id, customer_name, bill_date, grand_total
+        FROM bills
+        ORDER BY bill_id DESC
+        LIMIT 5
+        """;
+
+    try (Connection conn = DriverManager.getConnection(
+            "jdbc:mysql://localhost:3306/Inventory",
+            "root",
+            "Vikram@300978");
+         PreparedStatement stmt = conn.prepareStatement(sql);
+         ResultSet rs = stmt.executeQuery()) {
+
+        while (rs.next()) {
+            recentBillsModel.addRow(new Object[]{
+                "B" + String.format("%03d", rs.getInt("bill_id")),
+                rs.getString("customer_name"),
+                rs.getTimestamp("bill_date"),
+                rs.getBigDecimal("grand_total")
+            });
+        }
+
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(
+            this,
+            "Unable to load recent bills: " + ex.getMessage(),
+            "Database Error",
+            JOptionPane.ERROR_MESSAGE
+        );
+    }
+}
 
 
 
@@ -879,7 +941,125 @@ sellingPriceField.getDocument().addDocumentListener(listener);
         JOptionPane.PLAIN_MESSAGE
     );
 
+    try {
+    int billId = saveBillToDatabase(grandTotal);
+    loadRecentBills();
+
+    JOptionPane.showMessageDialog(
+        this,
+        "Bill saved successfully! Bill ID: " + billId
+    );
+
     showBillScreen(bill.toString());
+
+} catch (SQLException ex) {
+    JOptionPane.showMessageDialog(
+        this,
+        "Failed to save bill: " + ex.getMessage(),
+        "Database Error",
+        JOptionPane.ERROR_MESSAGE
+    );
+    ex.printStackTrace();
+}
+}
+
+private int saveBillToDatabase(double grandTotal) throws SQLException {
+    String billSql = """
+        INSERT INTO bills
+        (customer_name, phone, email, grand_total)
+        VALUES (?, ?, ?, ?)
+        """;
+
+    String itemSql = """
+        INSERT INTO bill_items
+        (bill_id, product_id, product_name,
+         selling_price, quantity, total)
+        VALUES (?, ?, ?, ?, ?, ?)
+        """;
+
+    try (Connection conn = DriverManager.getConnection(
+            "jdbc:mysql://localhost:3306/Inventory",
+            "root",
+            "Vikram@300978")) {
+
+        conn.setAutoCommit(false);
+
+        try {
+            int billId;
+
+            try (PreparedStatement billStmt =
+                     conn.prepareStatement(
+                         billSql,
+                         Statement.RETURN_GENERATED_KEYS)) {
+
+                billStmt.setString(1, nameField.getText().trim());
+                billStmt.setString(2, phoneField.getText().trim());
+
+                String email = emailField.getText().trim();
+                billStmt.setString(3, email);
+                billStmt.setDouble(4, grandTotal);
+
+                billStmt.executeUpdate();
+
+                try (ResultSet keys = billStmt.getGeneratedKeys()) {
+                    if (!keys.next()) {
+                        throw new SQLException("Bill ID was not generated.");
+                    }
+                    billId = keys.getInt(1);
+                }
+            }
+
+            try (PreparedStatement itemStmt =
+                     conn.prepareStatement(itemSql)) {
+
+                for (int i = 0; i < model.getRowCount(); i++) {
+                    itemStmt.setInt(1, billId);
+
+                    Object productId =
+                        model.getValueAt(i, 0);
+
+                    if (productId == null ||
+                        productId.toString().trim().isEmpty()) {
+                        itemStmt.setNull(2, java.sql.Types.INTEGER);
+                    } else {
+                        itemStmt.setInt(
+                            2, Integer.parseInt(productId.toString())
+                        );
+                    }
+
+                    itemStmt.setString(
+                        3, model.getValueAt(i, 1).toString()
+                    );
+                    itemStmt.setDouble(
+                        4, Double.parseDouble(
+                            model.getValueAt(i, 2).toString()
+                        )
+                    );
+                    itemStmt.setInt(
+                        5, Integer.parseInt(
+                            model.getValueAt(i, 3).toString()
+                        )
+                    );
+                    itemStmt.setDouble(
+                        6, Double.parseDouble(
+                            model.getValueAt(i, 4).toString()
+                        )
+                    );
+
+                    itemStmt.addBatch();
+                }
+
+                itemStmt.executeBatch();
+            }
+
+            conn.commit();
+            return billId;
+
+        } catch (SQLException | RuntimeException ex) {
+            conn.rollback();
+            throw ex;
+        }
+    }
 }
 
 private void showBillScreen(String billText) {
