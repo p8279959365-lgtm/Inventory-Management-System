@@ -754,18 +754,118 @@ viewBillButton.setFocusPainted(false);
 viewBillButton.setBorderPainted(false);
 viewBillButton.setOpaque(true);
 
-JPanel historyButtonPanel = new JPanel(
-    new FlowLayout(FlowLayout.RIGHT)
-);
-historyButtonPanel.setBackground(Color.WHITE);
-historyButtonPanel.add(viewBillButton);
+JPanel lowerButtonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+lowerButtonPanel.setLayout(new FlowLayout());
+lowerButtonPanel.setBackground(Color.WHITE);
+lowerButtonPanel.add(viewBillButton);
 
-recentBillsPanel.add(historyButtonPanel, BorderLayout.SOUTH);
+JButton delete=new JButton("Delete bill");
+lowerButtonPanel.add(delete,FlowLayout.LEFT);
 
+recentBillsPanel.add(lowerButtonPanel,BorderLayout.SOUTH);
 viewBillButton.addActionListener(e -> viewSelectedBillDetails());
-
+delete.addActionListener(epp -> deleteSelectedBill());
     }
 
+
+private void deleteSelectedBill() {
+    int selectedRow = recentBillsTable.getSelectedRow();
+
+    if (selectedRow == -1) {
+        JOptionPane.showMessageDialog(
+            this,
+            "Please select a bill from Recent Bills first.",
+            "No Bill Selected",
+            JOptionPane.WARNING_MESSAGE
+        );
+        return;
+    }
+
+    int modelRow = recentBillsTable.convertRowIndexToModel(selectedRow);
+
+    String billNumber = recentBillsModel
+        .getValueAt(modelRow, 0).toString();
+
+    int billId = Integer.parseInt(
+        billNumber.replace("B", "")
+    );
+
+    int choice = JOptionPane.showConfirmDialog(
+        this,
+        "Are you sure you want to delete bill "
+            + billNumber + "?\nThis action cannot be undone.",
+        "Confirm Delete",
+        JOptionPane.YES_NO_OPTION,
+        JOptionPane.WARNING_MESSAGE
+    );
+
+    if (choice != JOptionPane.YES_OPTION) {
+        return;
+    }
+
+    String deleteItemsSql =
+        "DELETE FROM bill_items WHERE bill_id = ?";
+
+    String deleteBillSql =
+        "DELETE FROM bills WHERE bill_id = ?";
+
+    try (Connection conn = DriverManager.getConnection(
+            "jdbc:mysql://localhost:3306/Inventory",
+            "root","Vikram@300978")) 
+            {
+
+        conn.setAutoCommit(false);
+
+        try {
+            try (PreparedStatement stmt =
+                    conn.prepareStatement(deleteItemsSql)) {
+                stmt.setInt(1, billId);
+                stmt.executeUpdate();
+            }
+
+            int deletedBills;
+
+            try (PreparedStatement stmt =
+                    conn.prepareStatement(deleteBillSql)) {
+                stmt.setInt(1, billId);
+                deletedBills = stmt.executeUpdate();
+            }
+
+            if (deletedBills == 0) {
+                conn.rollback();
+
+                JOptionPane.showMessageDialog(
+                    this,
+                    "Bill was not found in the database."
+                );
+                return;
+            }
+
+            conn.commit();
+
+            loadRecentBills();
+
+            JOptionPane.showMessageDialog(
+                this,
+                "Bill " + billNumber + " deleted successfully!"
+            );
+
+        } catch (SQLException ex) {
+            conn.rollback();
+            throw ex;
+        } finally {
+            conn.setAutoCommit(true);
+        }
+
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(
+            this,
+            "Could not delete bill: " + ex.getMessage(),
+            "Database Error",
+            JOptionPane.ERROR_MESSAGE
+        );
+    }
+}
 
 
 

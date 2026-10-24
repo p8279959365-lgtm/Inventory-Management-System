@@ -872,7 +872,15 @@ public class InventoryFrame extends JFrame {
         // Other sections are not implemented in this class yet.
         salesButton.addActionListener(e -> showNotImplemented("Sales"));
         purchaseButton.addActionListener(e -> showNotImplemented("Purchase"));
-        customerButton.addActionListener(e -> showNotImplemented("Customer"));
+        customerButton.addActionListener(e -> {
+            body.removeAll();
+            rightSideBar.setVisible(false);
+            lowerBar.setVisible(false);
+            CustomerFrame customerPanel = new CustomerFrame();
+            customerPanel.setBounds(0, 0, body.getWidth(), body.getHeight());body.add(customerPanel);
+            body.revalidate();
+            body.repaint();
+});
         suppliersButton.addActionListener(e -> showNotImplemented("Suppliers"));
         billingButton.addActionListener(e -> showBillingScreen());
     }
