@@ -310,6 +310,9 @@ class BillingFrame extends JPanel {
 
         add(card1);
 
+        // NOW WE WILL BE ADDING THE AUTOFETCH FROM THE 
+
+        phoneField.addActionListener(e -> fetchCustomerDetails());
         // Product Details Card
         JPanel card2 = new JPanel(null);
         card2.setBounds(20, 200, 800, 140);
@@ -765,6 +768,43 @@ lowerButtonPanel.add(delete,FlowLayout.LEFT);
 recentBillsPanel.add(lowerButtonPanel,BorderLayout.SOUTH);
 viewBillButton.addActionListener(e -> viewSelectedBillDetails());
 delete.addActionListener(epp -> deleteSelectedBill());
+    }
+
+
+
+
+
+    public void fetchCustomerDetails()
+    {
+
+         try{
+
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/Inventory","root","Vikram@300978");
+            PreparedStatement stmt=conn.prepareStatement("select * from customer where phone = ?");
+
+            String s=phoneField.getText();
+            stmt.setString(1,s);
+
+            ResultSet rs=stmt.executeQuery();
+
+            if(rs.next())
+            {
+
+                idField.setText(String.valueOf(rs.getInt("customer_id")));
+                nameField.setText(rs.getString("customer_name"));
+                emailField.setText(rs.getString("email"));
+            }
+
+            else
+            {
+                JOptionPane.showMessageDialog(this,"add new customer");
+            }
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(this," Error "+e);
+        }
+
     }
 
 

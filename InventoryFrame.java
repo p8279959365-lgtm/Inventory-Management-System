@@ -986,7 +986,7 @@ public class InventoryFrame extends JFrame {
         sellingPriceField = addFormField("Selling Price", 200);
         quantityField = addFormField("Quantity", 245);
         totalCostField = addFormField("Total Cost", 290);
-        totalCostField.setEditable(false);
+        totalCostField.setEditable(true);
 
         DocumentListener calculator = new DocumentListener() {
             @Override public void insertUpdate(DocumentEvent e) { calculateTotalCost(); }
@@ -996,7 +996,7 @@ public class InventoryFrame extends JFrame {
         purchasePriceField.getDocument().addDocumentListener(calculator);
         quantityField.getDocument().addDocumentListener(calculator);
     }
-
+    
     private JTextField addFormField(String labelText, int y) {
         JLabel label = new JLabel(labelText);
         label.setFont(new Font("Arial", Font.PLAIN, 13));
