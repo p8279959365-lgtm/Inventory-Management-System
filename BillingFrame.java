@@ -588,12 +588,38 @@ sellingPriceField.getDocument().addDocumentListener(listener);
         });
 
         // Add customer button placeholder
-        addCustomerButton.addActionListener(e ->
-            JOptionPane.showMessageDialog(
-                this,
-                "Customer database integration is pending."
-            )
-        );
+        addCustomerButton.addActionListener(e ->{
+
+            try{
+
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/Inventory","root","Vikram@300978");
+
+                String sq=" Insert into customer values (?,?,?,?)";
+                PreparedStatement stmt=con.prepareStatement(sq);
+                stmt.setInt(1,Integer.parseInt(idField.getText()));
+                stmt.setString(2,nameField.getText());
+                stmt.setString(3,phoneField.getText());
+                stmt.setString(4,emailField.getText());
+
+                int no_of_row=stmt.executeUpdate();
+                if(no_of_row >0)
+                {
+                    JOptionPane.showMessageDialog(this,"the customer was added");
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(this,"the custome was not added");
+                }
+            }
+            catch(Exception epp)
+            {
+
+                JOptionPane.showMessageDialog(this,"the customer was not added "+epp);
+            }
+
+        
+        });
 
         // adding the new card for showing the bill summary  the fields of discount, discount amt, tax, tax amt  then the grand total 
 
